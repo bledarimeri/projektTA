@@ -1,15 +1,13 @@
 <?php
 $host = 'localhost';
-$db_name = 'projektTA';
-$username = 'root';
-$password = '';
+$db = 'projektTA';
+$user = 'root';
+$pass = '';
 
-// Krijo lidhjen
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
-    // Vendos PDO në modën e gabimeve për të hedhur përjashtime
+    $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Lidhja dështoi: " . $e->getMessage());
+} catch (PDOException $e) {
+    echo "Lidhja me bazën e të dhënave dështoi: " . $e->getMessage();
 }
 ?>

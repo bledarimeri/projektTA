@@ -2,23 +2,27 @@
 session_start();
 include 'db.php';
 
+// Kontrollo nëse përdoruesi është superadmin
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'superadmin') {
+    header("Location: login.php");
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
-    $password = $_POST['password'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $role = $_POST['role'];
 
-    $sql = "SELECT * FROM users WHERE username = :username";
+    $sql = "INSERT INTO users (username, password, role) VALUES (:username, :password, :role)";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':username', $username);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->bindParam(':password', $password);
+    $stmt->bindParam(':role', $role);
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['role'] = $user['role'];
-        header("Location: index.php");
-        exit;
+    if ($stmt->execute()) {
+        $success = "Përdoruesi u regjistrua me sukses!";
     } else {
-        $error = "Username ose password i pasaktë.";
+        $error = "Gabim gjatë regjistrimit të përdoruesit.";
     }
 }
 ?>
@@ -28,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Regjistro Përdorues</title>
     <style>
     body {
         font-family: Arial, sans-serif;
@@ -61,7 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     .form-container input[type="text"],
-    .form-container input[type="password"] {
+    .form-container input[type="password"],
+    .form-container select {
         width: 100%;
         padding: 10px;
         margin-bottom: 10px;
@@ -84,6 +89,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         background-color: #005a43;
     }
 
+    .form-container .success {
+        color: green;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
     .form-container .error {
         color: red;
         text-align: center;
@@ -94,7 +105,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="form-container">
-        <h2>Login</h2>
+        <h2>Regjistro Përdorues</h2>
+        <?php if (isset($success)): ?>
+        <p class="success"><?= htmlspecialchars($success) ?></p>
+        <?php endif; ?>
         <?php if (isset($error)): ?>
         <p class="error"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
@@ -105,7 +119,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
-            <button type="submit">Login</button>
+            <label for="role">Roli:</label>
+            <select id="role" name="role" required>
+                <option value="vullnetar">Vullnetar</option>
+                <option value="mentor">Mentor</option>
+                <option value="desiminator">Desiminator</option>
+                <option value="superadmin">Superadmin</option>
+            </select>
+
+            <button type="submit">Regjistro</button>
         </form>
     </div>
 </body>
