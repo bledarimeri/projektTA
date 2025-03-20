@@ -2,12 +2,6 @@
 session_start();
 include 'db.php';
 
-// Kontrollo nëse përdoruesi është superadmin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'superadmin') {
-    header("Location: login.php");
-    exit;
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -51,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         width: 300px;
+        padding: 50px;
     }
 
     .form-container h2 {
@@ -100,6 +95,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         text-align: center;
         margin-bottom: 10px;
     }
+
+    .form-container .login-btn {
+        background-color: #f2a900;
+        margin-top: 10px;
+        padding: 10px 50px;
+    }
+
+    .form-container .login-btn:hover {
+        background-color: #d18b00;
+    }
     </style>
 </head>
 
@@ -129,6 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <button type="submit">Regjistro</button>
         </form>
+        <button class="login-btn"><a href="./login.php">Kthehu</a></button>
     </div>
 </body>
 

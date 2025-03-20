@@ -2,7 +2,7 @@
 session_start();
 include 'db.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -47,6 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         width: 300px;
+        padding: 50px;
+
+
     }
 
     .form-container h2 {
@@ -71,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     .form-container button {
         width: 100%;
-        padding: 10px;
+        padding: 10px 50px;
         background-color: #007b5e;
         color: white;
         border: none;
@@ -89,6 +92,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         text-align: center;
         margin-bottom: 10px;
     }
+
+    .form-container .register-btn {
+        background-color: #f2a900;
+        margin-top: 10px;
+        padding: 10px 50px;
+
+
+    }
+
+    .form-container .register-btn:hover {
+        background-color: #d18b00;
+    }
     </style>
 </head>
 
@@ -105,8 +120,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
-            <button type="submit">Login</button>
+            <button type="submit" name="login">Login</button>
+
         </form>
+
+        <button class="register-btn"><a href="./register.php">Register</a></button>
+
     </div>
 </body>
 
