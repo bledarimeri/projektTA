@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 session_start();
 
 if (!isset($_SESSION['role'])) {
@@ -30,4 +30,4 @@ if (isset($_GET['file'])) {
 } else {
     echo "Nuk është përcaktuar skedari.";
 }
-?>
+?> -->

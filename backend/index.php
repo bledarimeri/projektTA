@@ -106,40 +106,40 @@ $role = $_SESSION['role'];
         <img src="logo.png" alt="Logo" />
         <h2><?= htmlspecialchars(ucfirst($role)) ?></h2>
         <?php if ($role == 'superadmin'): ?>
-        <a href="./backend/paneli_kontrollit.php" target="content-frame">Paneli i kontrollit</a>
-        <a href="./backend/mentoret.php" target="content-frame">Mentorët</a>
-        <a href="./backend/desiminatoret.php" target="content-frame">Desiminatorët</a>
-        <a href="./backend/vullnetaret.php" target="content-frame">Vullnetarët</a>
-        <a href="./backend/regmentoret.php" target="content-frame">Regjistro Mentor</a>
-        <a href="./backend/regvullnetaret.php" target="content-frame">Regjistro Vullnetarë</a>
-        <a href="./backend/regdesiminatoret.php" target="content-frame">Regjistro Desiminator</a>
-        <a href="./backend/projektet.php" target="content-frame">Projektet</a>
-        <a href="./backend/raportet.php" target="content-frame">Raportet</a>
+        <a href="paneli_kontrollit.php" target="content-frame">Paneli i kontrollit</a>
+        <a href="mentoret.php" target="content-frame">Mentorët</a>
+        <a href="desiminatoret.php" target="content-frame">Desiminatorët</a>
+        <a href="vullnetaret.php" target="content-frame">Vullnetarët</a>
+        <a href="regmentoret.php" target="content-frame">Regjistro Mentor</a>
+        <a href="regvullnetaret.php" target="content-frame">Regjistro Vullnetarë</a>
+        <a href="regdesiminatoret.php" target="content-frame">Regjistro Desiminator</a>
+        <a href="projektet.php" target="content-frame">Projektet</a>
+        <a href="raportet.php" target="content-frame">Raportet</a>
         <a href="register.php" target="content-frame">Regjistro Përdorues</a>
         <a href="#" onclick="openNewSidebar()">Tjeter</a>
         <?php elseif ($role == 'mentor'): ?>
-        <a href="./backend/mentoret.php" target="content-frame">Mentorët</a>
-        <a href="./backend/projektet.php" target="content-frame">Projektet</a>
+        <a href="mentoret.php" target="content-frame">Mentorët</a>
+        <a href="projektet.php" target="content-frame">Projektet</a>
         <?php elseif ($role == 'desiminator'): ?>
-        <a href="./backend/desiminatoret.php" target="content-frame">Desiminatorët</a>
-        <a href="./backend/projektet.php" target="content-frame">Projektet</a>
+        <a href="desiminatoret.php" target="content-frame">Desiminatorët</a>
+        <a href="projektet.php" target="content-frame">Projektet</a>
         <?php elseif ($role == 'vullnetar'): ?>
-        <a href="./backend/vullnetaret.php" target="content-frame">Vullnetarët</a>
-        <a href="./backend/projektet.php" target="content-frame">Projektet</a>
+        <a href="vullnetaret.php" target="content-frame">Vullnetarët</a>
+        <a href="projektet.php" target="content-frame">Projektet</a>
         <?php endif; ?>
         <a href="logout.php">Logout</a>
     </div>
     <div class="content">
-        <iframe name="content-frame" src="./backend/paneli_kontrollit.php"></iframe>
+        <iframe name="content-frame" src="paneli_kontrollit.php"></iframe>
     </div>
 
     <div class="new-sidebar" id="newSidebar">
         <div class="close-btn">
             <button onclick="closeNewSidebar()">Mbyll</button>
         </div>
-        <a href="./backend/cikli_pvh.php" target="content-frame">Cikli PVH</a>
-        <a href="./backend/rezultatet_e_arritura.php" target="content-frame">Rezultatet e Arritura</a>
-        <a href="./backend/oret_vullnetare.php" target="content-frame">Oret Vullnetare</a>
+        <a href="cikli_pvh.php" target="content-frame">Cikli PVH</a>
+        <a href="rezultatet_e_arritura.php" target="content-frame">Rezultatet e Arritura</a>
+        <a href="oret_vullnetare.php" target="content-frame">Oret Vullnetare</a>
     </div>
 
     <script>
