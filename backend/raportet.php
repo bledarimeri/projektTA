@@ -1,7 +1,10 @@
 <?php
 
-include 'db.php';
+include 'access.php';
+checkAccess('mentor');
+checkAccess('superadmin');
 
+include 'db.php';
 
 // Merr desiminatorët për dropdown
 $sql = "SELECT id, emri, mbiemri FROM desiminatoret";

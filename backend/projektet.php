@@ -1,5 +1,9 @@
 <?php
 
+include 'access.php';
+checkAccess('mentor');
+checkAccess('superadmin');
+
 include 'db.php';
 
 // Merr mentorët dhe desiminatorët për dropdown
@@ -48,7 +52,7 @@ $projektet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <head>
     <meta charset="UTF-8">
-    <title>Shiko të gjitha projektet</title>
+    <title>Projektet</title>
     <style>
     table {
         width: 100%;
@@ -104,7 +108,7 @@ $projektet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <h1>Shiko të gjitha projektet</h1>
+    <h1>Projektet</h1>
     <form method="get" action="projektet.php">
         <label for="desiminatori_id">Desiminatori:</label>
         <select id="desiminatori_id" name="desiminatori_id">

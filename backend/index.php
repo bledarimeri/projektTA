@@ -120,12 +120,13 @@ $role = $_SESSION['role'];
         <?php elseif ($role == 'mentor'): ?>
         <a href="mentoret.php" target="content-frame">Mentorët</a>
         <a href="projektet.php" target="content-frame">Projektet</a>
+        <a href="raportet.php" target="content-frame">Raportet</a>
         <?php elseif ($role == 'desiminator'): ?>
         <a href="desiminatoret.php" target="content-frame">Desiminatorët</a>
         <a href="projektet.php" target="content-frame">Projektet</a>
+        <a href="raportet.php" target="content-frame">Raportet</a>
         <?php elseif ($role == 'vullnetar'): ?>
-        <a href="vullnetaret.php" target="content-frame">Vullnetarët</a>
-        <a href="projektet.php" target="content-frame">Projektet</a>
+        <p>Nuk keni qasje në asnjë seksion.</p>
         <?php endif; ?>
         <a href="logout.php">Logout</a>
     </div>

@@ -1,5 +1,18 @@
-<!-- <?php
+<?php
 session_start();
+
+function checkAccess($requiredRole) {
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: login.php");
+        exit;
+    }
+
+    $role = $_SESSION['role'];
+    if ($role != $requiredRole && $role != 'superadmin') {
+        header("Location: no_access.php");
+        exit;
+    }
+}
 
 if (!isset($_SESSION['role'])) {
     die("Nuk keni qasje!");
@@ -30,4 +43,4 @@ if (isset($_GET['file'])) {
 } else {
     echo "Nuk është përcaktuar skedari.";
 }
-?> -->
+?>

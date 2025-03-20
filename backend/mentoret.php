@@ -1,4 +1,6 @@
 <?php
+include 'access_control.php';
+checkAccess('mentor');
 include 'db.php';
 
 // Merr të dhënat e mentorëve
