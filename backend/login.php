@@ -6,15 +6,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE username = :username";
+    // Merr të dhënat e përdoruesit nga baza e të dhënave
+    $sql = "SELECT u.id, u.password, r.id AS role, r.name AS role_name
+            FROM users u
+            JOIN roles r ON u.role = r.id
+            WHERE u.username = :username";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':username', $username);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // Kontrollo nëse fjalëkalimi është i saktë
     if ($user && password_verify($password, $user['password'])) {
+        // Ruaj të dhënat në sesion
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['role'] = $user['role']; // Sigurohu që roli po ruhet saktë
+        $_SESSION['role'] = $user['role']; // Ruaj ID-në e rolit
+        $_SESSION['role_name'] = $user['role_name']; // Ruaj emrin e rolit
+
+        // Ridrejto përdoruesin në faqen kryesore
         header("Location: index.php");
         exit;
     } else {

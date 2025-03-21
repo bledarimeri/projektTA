@@ -1,5 +1,7 @@
 <?php
+include 'access.php';
 include 'db.php';
+checkAccess([1,3]);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $produktet = $_POST['produktet'];

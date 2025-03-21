@@ -5,9 +5,9 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// var_dump($_SESSION['role']);test
 
-$role = $_SESSION['role'];
+$roleId = $_SESSION['role'];
+
 ?>
 
 <!DOCTYPE html>
@@ -73,10 +73,10 @@ $role = $_SESSION['role'];
 <body>
     <div class="sidebar">
         <img src="logo.png" alt="Logo" />
-        <h2><?= htmlspecialchars(ucfirst($role)) ?></h2>
+        <h2><?= htmlspecialchars(ucfirst($roleId)) ?></h2>
 
         <!-- Superadmin Menu -->
-        <?php if ($role == 'superadmin'): ?>
+        <?php if ($roleId == 1): ?>
         <a href="paneli_kontrollit.php" target="content-frame">Paneli i kontrollit</a>
         <a href="mentoret.php" target="content-frame">Mentorët</a>
         <a href="desiminatoret.php" target="content-frame">Desiminatorët</a>
@@ -89,19 +89,23 @@ $role = $_SESSION['role'];
         <a href="register.php" target="content-frame">Regjistro Përdorues</a>
 
         <!-- Mentor Menu -->
-        <?php elseif ($role == 'mentoret'): ?>
+        <?php elseif ($roleId == 2): ?>
         <a href="mentoret.php" target="content-frame">Mentorët</a>
         <a href="projektet.php" target="content-frame">Projektet</a>
         <a href="raportet.php" target="content-frame">Raportet</a>
 
         <!-- Desiminator Menu -->
-        <?php elseif ($role == 'desiminatoret'): ?>
+        <?php elseif ($roleId == 3): ?>
         <a href="desiminatoret.php" target="content-frame">Desiminatorët</a>
         <a href="projektet.php" target="content-frame">Projektet</a>
         <a href="raportet.php" target="content-frame">Raportet</a>
+        <a href="cikli_pvh.php" target="content-frame">Cikli Pvh</a>
+        <a href="rezultatet_e_arritura.php" target="content-frame">Rezultatet e arritura</a>
+        <a href="oret_vullnetare.php" target="content-frame">Oret vullnetare</a>
+
 
         <!-- Vullnetar Menu -->
-        <?php elseif ($role == 'vullnetaret'): ?>
+        <?php elseif ($roleId == 4): ?>
         <p>Nuk keni qasje në asnjë seksion.</p>
         <?php endif; ?>
 
