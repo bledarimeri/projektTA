@@ -1,6 +1,7 @@
 <?php
-include 'access_control.php';
-checkAccess('mentor');
+include 'access.php';
+checkAccess(['mentoret', 'superadmin']); // Lejo qasje për mentorët dhe superadminët
+
 include 'db.php';
 
 // Merr të dhënat e mentorëve

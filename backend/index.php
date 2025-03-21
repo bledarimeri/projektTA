@@ -5,6 +5,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// var_dump($_SESSION['role']);test
+
 $role = $_SESSION['role'];
 ?>
 
@@ -65,39 +67,6 @@ $role = $_SESSION['role'];
         height: 100vh;
         border: none;
     }
-
-    .new-sidebar {
-        display: none;
-        width: 250px;
-        background-color: #f2a900;
-        padding: 20px;
-        box-sizing: border-box;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        z-index: 1000;
-    }
-
-    .new-sidebar a {
-        display: block;
-        color: black;
-        text-decoration: none;
-        padding: 10px 0;
-        margin: 5px 0;
-        font-size: 18px;
-    }
-
-    .new-sidebar a:hover {
-        background-color: darkcyan;
-        border-radius: 5px;
-    }
-
-    .close-btn {
-        display: block;
-        text-align: left;
-        cursor: pointer;
-    }
     </style>
 </head>
 
@@ -105,6 +74,8 @@ $role = $_SESSION['role'];
     <div class="sidebar">
         <img src="logo.png" alt="Logo" />
         <h2><?= htmlspecialchars(ucfirst($role)) ?></h2>
+
+        <!-- Superadmin Menu -->
         <?php if ($role == 'superadmin'): ?>
         <a href="paneli_kontrollit.php" target="content-frame">Paneli i kontrollit</a>
         <a href="mentoret.php" target="content-frame">Mentorët</a>
@@ -116,42 +87,30 @@ $role = $_SESSION['role'];
         <a href="projektet.php" target="content-frame">Projektet</a>
         <a href="raportet.php" target="content-frame">Raportet</a>
         <a href="register.php" target="content-frame">Regjistro Përdorues</a>
-        <a href="#" onclick="openNewSidebar()">Tjeter</a>
-        <?php elseif ($role == 'mentor'): ?>
+
+        <!-- Mentor Menu -->
+        <?php elseif ($role == 'mentoret'): ?>
         <a href="mentoret.php" target="content-frame">Mentorët</a>
         <a href="projektet.php" target="content-frame">Projektet</a>
         <a href="raportet.php" target="content-frame">Raportet</a>
-        <?php elseif ($role == 'desiminator'): ?>
+
+        <!-- Desiminator Menu -->
+        <?php elseif ($role == 'desiminatoret'): ?>
         <a href="desiminatoret.php" target="content-frame">Desiminatorët</a>
         <a href="projektet.php" target="content-frame">Projektet</a>
         <a href="raportet.php" target="content-frame">Raportet</a>
-        <?php elseif ($role == 'vullnetar'): ?>
+
+        <!-- Vullnetar Menu -->
+        <?php elseif ($role == 'vullnetaret'): ?>
         <p>Nuk keni qasje në asnjë seksion.</p>
         <?php endif; ?>
+
         <a href="logout.php">Logout</a>
     </div>
+
     <div class="content">
         <iframe name="content-frame" src="paneli_kontrollit.php"></iframe>
     </div>
-
-    <div class="new-sidebar" id="newSidebar">
-        <div class="close-btn">
-            <button onclick="closeNewSidebar()">Mbyll</button>
-        </div>
-        <a href="cikli_pvh.php" target="content-frame">Cikli PVH</a>
-        <a href="rezultatet_e_arritura.php" target="content-frame">Rezultatet e Arritura</a>
-        <a href="oret_vullnetare.php" target="content-frame">Oret Vullnetare</a>
-    </div>
-
-    <script>
-    function openNewSidebar() {
-        document.getElementById("newSidebar").style.display = "block";
-    }
-
-    function closeNewSidebar() {
-        document.getElementById("newSidebar").style.display = "none";
-    }
-    </script>
 </body>
 
 </html>

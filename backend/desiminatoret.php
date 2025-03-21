@@ -1,6 +1,7 @@
 <?php
-include 'access_control.php';
-checkAccess('desiminator');
+include 'access.php';
+checkAccess(['desiminatoret', 'superadmin']); // Lejo qasje për desiminatorët dhe superadminët
+
 include 'db.php';
 
 // Merr të dhënat e desiminatorëve
@@ -78,8 +79,9 @@ $desiminatoret = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td><?= htmlspecialchars($desiminatori['email']) ?></td>
             <td><?= htmlspecialchars($desiminatori['numri_telefonit']) ?></td>
             <td></td>
-                <a href="edit_desiminatoret.php?id=<?= htmlspecialchars($desiminatori['id']) ?>" class="edit">Edit</a>
-                <a href="delete_desiminatoret.php?id=<?= htmlspecialchars($desiminatori['id']) ?>" class="delete" onclick="return confirm('A jeni i sigurt që doni ta fshini këtë desiminator?');">Delete</a>
+            <a href="edit_desiminatoret.php?id=<?= htmlspecialchars($desiminatori['id']) ?>" class="edit">Edit</a>
+            <a href="delete_desiminatoret.php?id=<?= htmlspecialchars($desiminatori['id']) ?>" class="delete"
+                onclick="return confirm('A jeni i sigurt që doni ta fshini këtë desiminator?');">Delete</a>
             </td>
         </tr>
         <?php endforeach; ?>

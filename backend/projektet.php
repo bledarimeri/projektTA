@@ -1,8 +1,7 @@
 <?php
 
 include 'access.php';
-checkAccess('mentor');
-checkAccess('superadmin');
+checkAccess(['mentor', 'desiminator', 'superadmin']); // Lejo qasje për mentorët, desiminatorët dhe superadminët
 
 include 'db.php';
 

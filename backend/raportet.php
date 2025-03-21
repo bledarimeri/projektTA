@@ -1,7 +1,7 @@
 <?php
-
 include 'access.php';
-checkAccess('mentor');
+checkAccess('mentoret');
+checkAccess('desiminatoret');
 checkAccess('superadmin');
 
 include 'db.php';
