@@ -22,6 +22,8 @@ $roleId = $_SESSION['role'];
         margin: 0;
         padding: 0;
         display: flex;
+        height: 100vh;
+        overflow: hidden;
     }
 
     .sidebar {
@@ -29,6 +31,7 @@ $roleId = $_SESSION['role'];
         background-color: #f2a900;
         padding: 20px;
         box-sizing: border-box;
+        overflow-y: auto;
     }
 
     .sidebar img {
@@ -60,11 +63,12 @@ $roleId = $_SESSION['role'];
     .content {
         flex: 1;
         padding: 20px;
+        overflow-y: auto;
     }
 
     iframe {
         width: 100%;
-        height: 100vh;
+        height: 100%;
         border: none;
     }
     </style>
@@ -86,6 +90,9 @@ $roleId = $_SESSION['role'];
         <a href="regdesiminatoret.php" target="content-frame">Regjistro Desiminator</a>
         <a href="projektet.php" target="content-frame">Projektet</a>
         <a href="raportet.php" target="content-frame">Raportet</a>
+        <a href="cikli_pvh.php" target="content-frame">Cikli Pvh</a>
+        <a href="rezultatet_e_arritura.php" target="content-frame">Rezultatet e arritura</a>
+        <a href="oret_vullnetare.php" target="content-frame">Oret vullnetare</a>
         <a href="register.php" target="content-frame">Regjistro Përdorues</a>
 
         <!-- Mentor Menu -->

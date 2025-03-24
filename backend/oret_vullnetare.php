@@ -38,72 +38,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Oret Vullnetare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        background-color: #f8f9fa;
         margin: 0;
         padding: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-
+        height: 100vh;
     }
 
     .form-container {
         background-color: white;
         padding: 20px;
-        padding-right: 50px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         width: 600px;
-        height: 100%;
+        font-size: 14px;
     }
 
     .form-container h2 {
         text-align: center;
         margin-bottom: 20px;
-    }
-
-    .form-container label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-    .form-container input[type="text"],
-    .form-container input[type="date"],
-    .form-container input[type="time"],
-    .form-container textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .form-container button {
-        width: 100%;
-        padding: 10px;
-        background-color: #007b5e;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    .form-container button:hover {
-        background-color: #005a43;
-    }
-
-    .form-container .actions {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .form-container .actions button {
-        width: 48%;
     }
     </style>
 </head>
@@ -111,31 +70,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="form-container">
         <h2>Oret Vullnetare</h2>
-        <form method="post" action="">
-            <label for="aktivitetet_konkrete">Aktivitetet konkrete:</label>
-            <textarea id="aktivitetet_konkrete" name="aktivitetet_konkrete" required></textarea>
+        <form method="post" action="" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="aktivitetet_konkrete" class="form-label">Aktivitetet konkrete:</label>
+                <textarea id="aktivitetet_konkrete" name="aktivitetet_konkrete" class="form-control" required></textarea>
+            </div>
 
-            <label for="data_fillimit">Data e fillimit:</label>
-            <input type="date" id="data_fillimit" name="data_fillimit" required>
+            <div class="mb-3">
+                <label for="data_fillimit" class="form-label">Data e fillimit:</label>
+                <input type="date" id="data_fillimit" name="data_fillimit" class="form-control" required>
+            </div>
 
-            <label for="ora_fillimit">Ora e fillimit:</label>
-            <input type="time" id="ora_fillimit" name="ora_fillimit" required>
+            <div class="mb-3">
+                <label for="ora_fillimit" class="form-label">Ora e fillimit:</label>
+                <input type="time" id="ora_fillimit" name="ora_fillimit" class="form-control" required>
+            </div>
 
-            <label for="data_perfundimit">Data e përfundimit:</label>
-            <input type="date" id="data_perfundimit" name="data_perfundimit" required>
+            <div class="mb-3">
+                <label for="data_perfundimit" class="form-label">Data e përfundimit:</label>
+                <input type="date" id="data_perfundimit" name="data_perfundimit" class="form-control" required>
+            </div>
 
-            <label for="ora_perfundimit">Ora e përfundimit:</label>
-            <input type="time" id="ora_perfundimit" name="ora_perfundimit" required>
+            <div class="mb-3">
+                <label for="ora_perfundimit" class="form-label">Ora e përfundimit:</label>
+                <input type="time" id="ora_perfundimit" name="ora_perfundimit" class="form-control" required>
+            </div>
 
-            <label for="pjesemarresit">Pjesëmarrës që e kryen aktivitetin:</label>
-            <textarea id="pjesemarresit" name="pjesemarresit" required></textarea>
+            <div class="mb-3">
+                <label for="pjesemarresit" class="form-label">Pjesëmarrës që e kryen aktivitetin:</label>
+                <textarea id="pjesemarresit" name="pjesemarresit" class="form-control" required></textarea>
+            </div>
 
-            <label for="vleresimi">Vlerësimi:</label>
-            <input type="text" id="vleresimi" name="vleresimi" required>
+            <div class="mb-3">
+                <label for="vleresimi" class="form-label">Vlerësimi:</label>
+                <input type="text" id="vleresimi" name="vleresimi" class="form-control" required>
+            </div>
 
-            <div class="actions">
-                <button type="submit">Dërgo</button>
-                <button type="button" onclick="window.print()">Shkarko PDF</button>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Dërgo</button>
+                <button type="button" class="btn btn-secondary" onclick="window.print()">Shkarko PDF</button>
             </div>
         </form>
     </div>

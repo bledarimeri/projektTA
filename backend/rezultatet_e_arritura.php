@@ -49,10 +49,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Rezultatet e Arritura</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        background-color: #f8f9fa;
         margin: 0;
         padding: 0;
         display: flex;
@@ -67,64 +68,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         width: 600px;
+        font-size: 14px;
     }
 
     .form-container h2 {
         text-align: center;
         margin-bottom: 20px;
-    }
-
-    .form-container label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-    .form-container input[type="text"],
-    .form-container input[type="file"],
-    .form-container textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .form-container button {
-        width: 100%;
-        padding: 10px;
-        background-color: #007b5e;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    .form-container button:hover {
-        background-color: #005a43;
-    }
-
-    .form-container .actions {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .form-container .actions button {
-        width: 48%;
-    }
-
-    .form-container .file-upload {
-        display: flex;
-        align-items: center;
-    }
-
-    .form-container .file-upload input[type="file"] {
-        margin-left: 10px;
-    }
-
-    .form-container .file-upload p {
-        margin: 0;
     }
     </style>
 </head>
@@ -132,33 +81,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="form-container">
         <h2>Rezultatet e Arritura</h2>
-        <form method="post" action="" enctype="multipart/form-data">
-            <label for="produktet">Produktet e mbledhura:</label>
-            <input type="text" id="produktet" name="produktet" required>
-
-            <label for="numri_njerezve">Numri i njerëzve të cilëve u është ndihmuar:</label>
-            <input type="text" id="numri_njerezve" name="numri_njerezve" required>
-
-            <label for="mjetet_financiare">Gjithsej mjetet financiare:</label>
-            <input type="text" id="mjetet_financiare" name="mjetet_financiare" required>
-
-            <label for="gjera_shtes">Gjërat shtesë:</label>
-            <input type="text" id="gjera_shtes" name="gjera_shtes" required>
-
-            <label for="pershkrimi_projektit">Përshkrimi i Projektit:</label>
-            <textarea id="pershkrimi_projektit" name="pershkrimi_projektit" required></textarea>
-
-            <div class="file-upload">
-                <label for="faturat">Ngarko Faturat (PDF, DOC, DOCX, Images):</label>
-                <input type="file" id="faturat" name="faturat[]" multiple>
+        <form method="post" action="" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="produktet" class="form-label">Produktet e mbledhura:</label>
+                <input type="text" id="produktet" name="produktet" class="form-control" required>
             </div>
 
-            <label for="vleresimi">Vlerësimi:</label>
-            <input type="text" id="vleresimi" name="vleresimi" required>
+            <div class="mb-3">
+                <label for="numri_njerezve" class="form-label">Numri i njerëzve të cilëve u është ndihmuar:</label>
+                <input type="text" id="numri_njerezve" name="numri_njerezve" class="form-control" required>
+            </div>
 
-            <div class="actions">
-                <button type="submit">Dërgo</button>
-                <button type="button" onclick="window.print()">Shkarko PDF</button>
+            <div class="mb-3">
+                <label for="mjetet_financiare" class="form-label">Gjithsej mjetet financiare:</label>
+                <input type="text" id="mjetet_financiare" name="mjetet_financiare" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="gjera_shtes" class="form-label">Gjërat shtesë:</label>
+                <input type="text" id="gjera_shtes" name="gjera_shtes" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="pershkrimi_projektit" class="form-label">Përshkrimi i Projektit:</label>
+                <textarea id="pershkrimi_projektit" name="pershkrimi_projektit" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-3 file-upload">
+                <label for="faturat" class="form-label">Ngarko Faturat (PDF, DOC, DOCX, Images):</label>
+                <input type="file" id="faturat" name="faturat[]" class="form-control" multiple>
+            </div>
+
+            <div class="mb-3">
+                <label for="vleresimi" class="form-label">Vlerësimi:</label>
+                <input type="text" id="vleresimi" name="vleresimi" class="form-control" required>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Dërgo</button>
+                <button type="button" class="btn btn-secondary" onclick="window.print()">Shkarko PDF</button>
             </div>
         </form>
     </div>

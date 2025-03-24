@@ -1,35 +1,5 @@
-<?php
-session_start();
+<?php 
 include 'db.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Merr të dhënat e përdoruesit nga baza e të dhënave
-    $sql = "SELECT u.id, u.password, r.id AS role, r.name AS role_name
-            FROM users u
-            JOIN roles r ON u.role = r.id
-            WHERE u.username = :username";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':username', $username);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // Kontrollo nëse fjalëkalimi është i saktë
-    if ($user && password_verify($password, $user['password'])) {
-        // Ruaj të dhënat në sesion
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['role'] = $user['role']; // Ruaj ID-në e rolit
-        $_SESSION['role_name'] = $user['role_name']; // Ruaj emrin e rolit
-
-        // Ridrejto përdoruesin në dashboard
-        header("Location: index.php");
-        exit;
-    } else {
-        $error = "Username ose password i pasaktë.";
-    }
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['contact_admin'])) {
     // Merr të dhënat nga forma
@@ -38,8 +8,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['contact_admin'])) {
     $role = htmlspecialchars($_POST['role']);
     $message = htmlspecialchars($_POST['message']);
 
-    // Simulo një dërgim të email-it (joaktiv)
-    $success = "Kërkesa juaj për rolin '$role' është regjistruar. Admini do të kontaktojë së shpejti.";
+    // Ruaj të dhënat në bazën e të dhënave
+    $sql = "INSERT INTO contact_requests (username, email, role, message) VALUES (:username, :email, :role, :message)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':role', $role);
+    $stmt->bindParam(':message', $message);
+
+    if ($stmt->execute()) {
+        $success = "Kërkesa juaj për rolin '$role' është regjistruar. Admini do të kontaktojë së shpejti.";
+    } else {
+        $error = "Ndodhi një gabim gjatë regjistrimit të kërkesës. Ju lutemi provoni përsëri.";
+    }
 }
 ?>
 
@@ -48,8 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['contact_admin'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Login dhe Kontakto Adminin</title>
+    <title>Kontakto Adminin</title>
     <style>
+    /* Stilizimi ekzistues */
     body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f4;
@@ -82,7 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['contact_admin'])) {
     }
 
     .form-container input[type="text"],
-    .form-container input[type="password"],
     .form-container input[type="email"],
     .form-container textarea,
     .form-container select {
@@ -95,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['contact_admin'])) {
 
     .form-container button {
         width: 100%;
-        padding: 10px 50px;
+        padding: 10px;
         background-color: #007b5e;
         color: white;
         border: none;
@@ -120,35 +101,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['contact_admin'])) {
         margin-bottom: 10px;
     }
 
-    .form-container .register-btn {
+    /* Stilizimi për butonin "Kthehu" */
+    .form-container .back-btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
         background-color: #f2a900;
-        margin-top: 10px;
-        padding: 10px 50px;
-    }
-
-    .form-container .register-btn:hover {
-        background-color: #d18b00;
-    }
-
-    .form-container .toggle {
+        color: white;
         text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
         margin-top: 10px;
     }
 
-    .form-container .toggle a {
-        color: #007b5e;
-        text-decoration: none;
-    }
-
-    .form-container .toggle a:hover {
-        text-decoration: underline;
+    .form-container .back-btn:hover {
+        background-color: #d18b00;
     }
     </style>
 </head>
 
 <body>
     <div class="form-container">
-        <h2>Login</h2>
+        <h2>Kontakto Adminin</h2>
         <?php if (isset($success)): ?>
         <p class="success"><?= htmlspecialchars($success) ?></p>
         <?php endif; ?>
@@ -159,20 +134,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['contact_admin'])) {
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
-            <button type="submit" name="login">Login</button>
+            <label for="role">Roli i kërkuar:</label>
+            <select id="role" name="role" required>
+                <option value="mentor">Mentor</option>
+                <option value="desiminator">Desiminator</option>
+                <option value="vullnetar">Vullnetar</option>
+            </select>
+
+            <label for="message">Mesazhi:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="submit" name="contact_admin">Dërgo Kërkesën</button>
+            <a href="./login.php" class="back-btn">Kthehu</a>
         </form>
-
-        <!-- <button class="register-btn"><a href="./register.php">Register</a></button> -->
-
-        <div class="toggle">
-            <button onclick="window.location.href='kontaktadmin.php'">Kontakto Adminin</button>
-        </div>
     </div>
-
-
 </body>
 
 </html>

@@ -35,121 +35,56 @@ $raportet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Raportet e desiminatorëve</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    table,
-    th,
-    td {
-        border: 1px solid black;
-    }
-
-    th,
-    td {
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #f2a900;
-    }
-
-    .edit,
-    .delete,
-    .view {
-        background-color: blue;
-        color: white;
-        padding: 5px 10px;
-        text-decoration: none;
-        border-radius: 5px;
-    }
-
-    .delete {
-        background-color: red;
-    }
-
-    .view {
-        background-color: green;
-    }
-
-    .edit:hover {
-        background-color: #45a049;
-    }
-
-    .delete:hover {
-        background-color: darkred;
-    }
-
-    .view:hover {
-        background-color: darkgreen;
-    }
-
-    .report {
-        margin-bottom: 20px;
-        border: 1px solid black;
-    }
-
-    .report-header {
-        background-color: #f2a900;
-        padding: 10px;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .report-content {
-        padding: 10px;
-    }
-
-    .actions {
-        display: flex;
-        gap: 10px;
+    .table th, .table td {
+        font-size: 14px;
     }
     </style>
 </head>
 
 <body>
-    <h1>Raportet e desiminatorëve</h1>
-    <form method="get" action="raportet.php">
-        <label for="desiminator_id">Zgjidh Desiminatorin:</label>
-        <select id="desiminator_id" name="desiminator_id">
-            <option value="">Të gjithë</option>
-            <?php foreach ($desiminatoret as $desiminator): ?>
-            <option value="<?= htmlspecialchars($desiminator['id']) ?>"
-                <?= $desiminator_id == $desiminator['id'] ? 'selected' : '' ?>>
-                <?= htmlspecialchars($desiminator['emri'] . ' ' . $desiminator['mbiemri']) ?>
-            </option>
-            <?php endforeach; ?>
-        </select>
-        <button type="submit">Filtro</button>
-    </form>
+    <div class="container mt-4">
+        <h1>Raportet e desiminatorëve</h1>
+        <form method="get" action="raportet.php" class="mb-3">
+            <label for="desiminator_id" class="form-label">Zgjidh Desiminatorin:</label>
+            <select id="desiminator_id" name="desiminator_id" class="form-select">
+                <option value="">Të gjithë</option>
+                <?php foreach ($desiminatoret as $desiminator): ?>
+                <option value="<?= htmlspecialchars($desiminator['id']) ?>"
+                    <?= $desiminator_id == $desiminator['id'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($desiminator['emri'] . ' ' . $desiminator['mbiemri']) ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit" class="btn btn-primary mt-2">Filtro</button>
+        </form>
 
-    <a href="shto_raportet.php" class="view" style="margin-bottom: 20px; display: inline-block;">Shto Raport</a>
-
-    <?php foreach ($raportet as $raport): ?>
-    <div class="report">
-        <div class="report-header">
-            <span><?= htmlspecialchars($raport['titulli']) ?></span>
-            <span><?= htmlspecialchars($raport['data']) ?></span>
-            <span class="actions">
-                <a href="edit_raportet.php?id=<?= htmlspecialchars($raport['id']) ?>" class="edit">Edit</a>
-                <a href="delete_raportet.php?id=<?= htmlspecialchars($raport['id']) ?>" class="delete"
-                    onclick="return confirm('A jeni i sigurt që doni ta fshini këtë raport?');">Delete</a>
-
-
-                <a href="shiko_raportet.php?id=<?= htmlspecialchars($raport['id']) ?>" class="view">Shiko</a>
-
-            </span>
-        </div>
-        <div class="report-content">
-            <p><?= htmlspecialchars($raport['pershkrimi']) ?></p>
-            <p><strong>Desiminatori:</strong> <?= htmlspecialchars($raport['emri'] . ' ' . $raport['mbiemri']) ?></p>
-        </div>
+        <table class="table table-striped table-bordered">
+            <thead class="table-warning">
+                <tr>
+                    <th>Titulli</th>
+                    <th>Data</th>
+                    <th>Përshkrimi</th>
+                    <th>Desiminatori</th>
+                    <th>Veprime</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($raportet as $raport): ?>
+                <tr>
+                    <td><?= htmlspecialchars($raport['titulli']) ?></td>
+                    <td><?= htmlspecialchars($raport['data']) ?></td>
+                    <td><?= htmlspecialchars($raport['pershkrimi']) ?></td>
+                    <td><?= htmlspecialchars($raport['emri'] . ' ' . $raport['mbiemri']) ?></td>
+                    <td>
+                        <a href="./rezultatet_e_arritura.php" class="btn btn-success btn-sm">Shiko</a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
-    <?php endforeach; ?>
 </body>
 
 </html>

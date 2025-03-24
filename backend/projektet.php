@@ -52,110 +52,77 @@ $projektet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Projektet</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    table,
-    th,
-    td {
-        border: 1px solid black;
-    }
-
-    th,
-    td {
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #f2a900;
-    }
-
-    .view,
-    .edit,
-    .delete {
-        background-color: green;
-        color: white;
-        padding: 5px 10px;
-        text-decoration: none;
-        border-radius: 5px;
-    }
-
-    .edit {
-        background-color: blue;
-    }
-
-    .delete {
-        background-color: red;
-    }
-
-    .view:hover {
-        background-color: darkgreen;
-    }
-
-    .edit:hover {
-        background-color: #45a049;
-    }
-
-    .delete:hover {
-        background-color: darkred;
+    .table th,
+    .table td {
+        font-size: 14px;
     }
     </style>
 </head>
 
 <body>
-    <h1>Projektet</h1>
-    <form method="get" action="projektet.php">
-        <label for="desiminatori_id">Desiminatori:</label>
-        <select id="desiminatori_id" name="desiminatori_id">
-            <option value="">Të gjithë</option>
-            <?php foreach ($desiminatorët as $desiminator): ?>
-            <option value="<?= htmlspecialchars($desiminator['id']) ?>"
-                <?= $desiminatori_id == $desiminator['id'] ? 'selected' : '' ?>>
-                <?= htmlspecialchars($desiminator['emri'] . ' ' . $desiminator['mbiemri']) ?>
-            </option>
-            <?php endforeach; ?>
-        </select>
-        <label for="mentori_id">Mentori:</label>
-        <select id="mentori_id" name="mentori_id">
-            <option value="">Të gjithë</option>
-            <?php foreach ($mentorët as $mentori): ?>
-            <option value="<?= htmlspecialchars($mentori['id']) ?>"
-                <?= $mentori_id == $mentori['id'] ? 'selected' : '' ?>>
-                <?= htmlspecialchars($mentori['emri'] . ' ' . $mentori['mbiemri']) ?>
-            </option>
-            <?php endforeach; ?>
-        </select>
-        <button type="submit">Filtro Projektet</button>
-    </form>
+    <div class="container mt-4">
+        <h1>Projektet</h1>
+        <form method="get" action="projektet.php" class="mb-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="desiminatori_id" class="form-label">Desiminatori:</label>
+                    <select id="desiminatori_id" name="desiminatori_id" class="form-select">
+                        <option value="">Të gjithë</option>
+                        <?php foreach ($desiminatorët as $desiminator): ?>
+                        <option value="<?= htmlspecialchars($desiminator['id']) ?>"
+                            <?= $desiminatori_id == $desiminator['id'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($desiminator['emri'] . ' ' . $desiminator['mbiemri']) ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="mentori_id" class="form-label">Mentori:</label>
+                    <select id="mentori_id" name="mentori_id" class="form-select">
+                        <option value="">Të gjithë</option>
+                        <?php foreach ($mentorët as $mentori): ?>
+                        <option value="<?= htmlspecialchars($mentori['id']) ?>"
+                            <?= $mentori_id == $mentori['id'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($mentori['emri'] . ' ' . $mentori['mbiemri']) ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Filtro Projektet</button>
+        </form>
 
-    <a href="shto_projektet.php" class="view" style="margin-bottom: 20px; display: inline-block;">Shto Projekt</a>
+        <!-- <a href="shto_projektet.php" class="btn btn-success mb-3">Shto Projekt</a> -->
 
-    <table>
-        <tr>
-            <th>Titulli i Projektit</th>
-            <th>Mentori</th>
-            <th>Desiminatori</th>
-            <th>Vlerësimi (Mesatarja)</th>
-            <th>Veprime</th>
-        </tr>
-        <?php foreach ($projektet as $projekti): ?>
-        <tr>
-            <td><?= htmlspecialchars($projekti['titulli']) ?></td>
-            <td><?= htmlspecialchars($projekti['mentori_emri'] . ' ' . $projekti['mentori_mbiemri']) ?></td>
-            <td><?= htmlspecialchars($projekti['desiminatori_emri'] . ' ' . $projekti['desiminatori_mbiemri']) ?></td>
-            <td><?= htmlspecialchars(number_format($projekti['vleresimi'], 2)) ?></td>
-            <td>
-                <a href="shiko_projektet.php?id=<?= htmlspecialchars($projekti['id']) ?>" class="view">Shiko
-                    Projektin</a>
-
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+        <table class="table table-striped table-bordered">
+            <thead class="table-warning">
+                <tr>
+                    <th>Titulli i Projektit</th>
+                    <th>Mentori</th>
+                    <th>Desiminatori</th>
+                    <th>Vlerësimi</th>
+                    <th>Veprime</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($projektet as $projekti): ?>
+                <tr>
+                    <td><?= htmlspecialchars($projekti['titulli']) ?></td>
+                    <td><?= htmlspecialchars($projekti['mentori_emri'] . ' ' . $projekti['mentori_mbiemri']) ?></td>
+                    <td><?= htmlspecialchars($projekti['desiminatori_emri'] . ' ' . $projekti['desiminatori_mbiemri']) ?>
+                    </td>
+                    <td><?= htmlspecialchars(number_format($projekti['vleresimi'], 2)) ?></td>
+                    <td>
+                        <a href="./cikli_pvh.php?id=<?= htmlspecialchars($projekti['id']) ?>"
+                            class="btn btn-success btn-sm">Shiko</a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>

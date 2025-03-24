@@ -18,6 +18,7 @@ $vullnetaret = $stmt->fetchAll(PDO::FETCH_ASSOC);
     table {
         width: 100%;
         border-collapse: collapse;
+        table-layout: fixed;
     }
 
     table,
@@ -30,6 +31,7 @@ $vullnetaret = $stmt->fetchAll(PDO::FETCH_ASSOC);
     td {
         padding: 10px;
         text-align: left;
+        word-wrap: break-word;
     }
 
     th {
@@ -67,7 +69,7 @@ $vullnetaret = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Mbiemri</th>
             <th>Email-i</th>
             <th>Numri i telefonit</th>
-            <th>Veprime</th>
+            <!-- <th>Veprime</th> -->
         </tr>
         <?php foreach ($vullnetaret as $vullnetari): ?>
         <tr>
@@ -75,11 +77,11 @@ $vullnetaret = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td><?= htmlspecialchars($vullnetari['mbiemri']) ?></td>
             <td><?= htmlspecialchars($vullnetari['email']) ?></td>
             <td><?= htmlspecialchars($vullnetari['numri_telefonit']) ?></td>
-            <td>
+            <!-- <td>
                 <a href="edit_vullnetaret.php?id=<?= htmlspecialchars($vullnetari['id']) ?>" class="edit">Edit</a>
                 <a href="delete_vullnetaret.php?id=<?= htmlspecialchars($vullnetari['id']) ?>" class="delete"
                     onclick="return confirm('A jeni i sigurt që doni ta fshini këtë vullnetar?');">Delete</a>
-            </td>
+            </td> -->
         </tr>
         <?php endforeach; ?>
     </table>

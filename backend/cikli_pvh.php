@@ -64,10 +64,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Cikli PVH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        background-color: #f8f9fa;
         margin: 0;
         padding: 0;
         display: flex;
@@ -79,80 +80,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .form-container {
         background-color: white;
         padding: 20px;
-        padding-right: 50px;
-        margin: auto;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         width: 600px;
+        font-size: 14px;
     }
 
     .form-container h2 {
         text-align: center;
         margin-bottom: 20px;
-    }
-
-    .form-container label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-    .form-container input[type="text"],
-    .form-container input[type="file"],
-    .form-container textarea,
-    .form-container select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .form-container input[type="radio"] {
-        margin-right: 10px;
-    }
-
-    .form-container .radio-group {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-
-    .form-container button {
-        width: 100%;
-        padding: 10px;
-        background-color: #007b5e;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    .form-container button:hover {
-        background-color: #005a43;
-    }
-
-    .form-container .actions {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .form-container .actions button {
-        width: 48%;
-    }
-
-    .form-container .file-upload {
-        display: flex;
-        align-items: center;
-    }
-
-    .form-container .file-upload input[type="file"] {
-        margin-left: 10px;
-    }
-
-    .form-container .file-upload p {
-        margin: 0;
     }
     </style>
 </head>
@@ -160,66 +96,93 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="form-container">
         <h2>Cikli PVH</h2>
-        <form method="post" action="" enctype="multipart/form-data">
-            <label for="titulli">Titulli:</label>
-            <input type="text" id="titulli" name="titulli" required>
-
-            <div class="radio-group">
-                <label>
-                    <input type="radio" name="aksioni" value="Aksion ne komunitet" required> Aksion në komunitet
-                </label>
-                <label>
-                    <input type="radio" name="aksioni" value="Aksion nder kulturor" required> Aksion ndër kulturor
-                </label>
-                <label>
-                    <input type="radio" name="aksioni" value="Aksion kunder dhunes" required> Aksion kundër dhunës
-                </label>
+        <form method="post" action="" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="titulli" class="form-label">Titulli:</label>
+                <input type="text" id="titulli" name="titulli" class="form-control" required>
             </div>
 
-            <label for="dega">Dega e KK:</label>
-            <input type="text" id="dega" name="dega" required>
-
-            <label for="desiminatori">Desiminatori:</label>
-            <select id="desiminatori" name="desiminatori" required>
-                <option value="">Select Teacher</option>
-
-            </select>
-
-            <label for="punetori">Punëtori:</label>
-            <input type="text" id="punetori" name="punetori" required>
-
-            <label for="permbajtja_titulli">Përmbajtja Titulli:</label>
-            <input type="text" id="permbajtja_titulli" name="permbajtja_titulli" required>
-
-            <label for="permbajtja">Përmbajtja:</label>
-            <textarea id="permbajtja" name="permbajtja" required></textarea>
-
-            <label for="analiza_problemit">Analiza e Problemit:</label>
-            <textarea id="analiza_problemit" name="analiza_problemit" required></textarea>
-
-            <label for="note">Note:</label>
-            <textarea id="note" name="note" required></textarea>
-
-            <label for="percaktimi">Përcaktimi:</label>
-            <textarea id="percaktimi" name="percaktimi" required></textarea>
-
-            <label for="perdorimi_projektit">Përdorimi i Projektit:</label>
-            <textarea id="perdorimi_projektit" name="perdorimi_projektit" required></textarea>
-
-            <label for="informacione_shtese">Informacione Shtesë:</label>
-            <textarea id="informacione_shtese" name="informacione_shtese" required></textarea>
-
-            <div class="file-upload">
-                <label for="skedaret">Skedarët e ngarkuar (PDF, DOCX, Images):</label>
-                <input type="file" id="skedaret" name="skedaret[]" multiple>
+            <div class="mb-3">
+                <label class="form-label">Aksioni:</label>
+                <div class="form-check">
+                    <input type="radio" id="aksioni1" name="aksioni" value="Aksion ne komunitet" class="form-check-input" required>
+                    <label for="aksioni1" class="form-check-label">Aksion në komunitet</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="aksioni2" name="aksioni" value="Aksion nder kulturor" class="form-check-input" required>
+                    <label for="aksioni2" class="form-check-label">Aksion ndër kulturor</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="aksioni3" name="aksioni" value="Aksion kunder dhunes" class="form-check-input" required>
+                    <label for="aksioni3" class="form-check-label">Aksion kundër dhunës</label>
+                </div>
             </div>
 
-            <label for="vleresimi">Vlerësimi:</label>
-            <input type="text" id="vleresimi" name="vleresimi" required>
+            <div class="mb-3">
+                <label for="dega" class="form-label">Dega e KK:</label>
+                <input type="text" id="dega" name="dega" class="form-control" required>
+            </div>
 
-            <div class="actions">
-                <button type="submit">Dërgo</button>
-                <button type="button" onclick="window.print()">Shkarko PDF</button>
+            <div class="mb-3">
+                <label for="desiminatori" class="form-label">Desiminatori:</label>
+                <select id="desiminatori" name="desiminatori" class="form-select" required>
+                    <option value="">Select Teacher</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="punetori" class="form-label">Punëtori:</label>
+                <input type="text" id="punetori" name="punetori" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="permbajtja_titulli" class="form-label">Përmbajtja Titulli:</label>
+                <input type="text" id="permbajtja_titulli" name="permbajtja_titulli" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="permbajtja" class="form-label">Përmbajtja:</label>
+                <textarea id="permbajtja" name="permbajtja" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="analiza_problemit" class="form-label">Analiza e Problemit:</label>
+                <textarea id="analiza_problemit" name="analiza_problemit" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="note" class="form-label">Note:</label>
+                <textarea id="note" name="note" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="percaktimi" class="form-label">Përcaktimi:</label>
+                <textarea id="percaktimi" name="percaktimi" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="perdorimi_projektit" class="form-label">Përdorimi i Projektit:</label>
+                <textarea id="perdorimi_projektit" name="perdorimi_projektit" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="informacione_shtese" class="form-label">Informacione Shtesë:</label>
+                <textarea id="informacione_shtese" name="informacione_shtese" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="skedaret" class="form-label">Skedarët e ngarkuar (PDF, DOCX, Images):</label>
+                <input type="file" id="skedaret" name="skedaret[]" class="form-control" multiple>
+            </div>
+
+            <div class="mb-3">
+                <label for="vleresimi" class="form-label">Vlerësimi:</label>
+                <input type="text" id="vleresimi" name="vleresimi" class="form-control" required>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Dërgo</button>
+                <button type="button" class="btn btn-secondary" onclick="window.print()">Shkarko PDF</button>
             </div>
         </form>
     </div>

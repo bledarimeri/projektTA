@@ -21,6 +21,7 @@ $mentoret = $stmt->fetchAll(PDO::FETCH_ASSOC);
     table {
         width: 100%;
         border-collapse: collapse;
+        table-layout: fixed;
     }
 
     table,
@@ -33,6 +34,7 @@ $mentoret = $stmt->fetchAll(PDO::FETCH_ASSOC);
     td {
         padding: 10px;
         text-align: left;
+        word-wrap: break-word;
     }
 
     th {
@@ -70,7 +72,7 @@ $mentoret = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Mbiemri</th>
             <th>Email-i</th>
             <th>Numri i telefonit</th>
-            <th>Veprime</th>
+            <!-- <th>Veprime</th> -->
         </tr>
         <?php foreach ($mentoret as $mentori): ?>
         <tr>
@@ -78,11 +80,11 @@ $mentoret = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td><?= htmlspecialchars($mentori['mbiemri']) ?></td>
             <td><?= htmlspecialchars($mentori['email']) ?></td>
             <td><?= htmlspecialchars($mentori['numri_telefonit']) ?></td>
-            <td>
+            <!-- <td>
                 <a href="edit_mentoret.php?id=<?= htmlspecialchars($mentori['id']) ?>" class="edit">Edit</a>
                 <a href="delete_mentoret.php?id=<?= htmlspecialchars($mentori['id']) ?>" class="delete"
                     onclick="return confirm('A jeni i sigurt që doni ta fshini këtë mentor?');">Delete</a>
-            </td>
+            </td> -->
         </tr>
         <?php endforeach; ?>
     </table>
