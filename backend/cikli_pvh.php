@@ -63,7 +63,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cikli PVH</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
     body {
@@ -74,21 +76,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
     }
 
     .form-container {
         background-color: white;
-        padding: 20px;
+        padding: 30px;
         border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 600px;
-        font-size: 14px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 800px;
     }
 
     .form-container h2 {
         text-align: center;
         margin-bottom: 20px;
+        color: #007b5e;
+    }
+
+    .form-container .form-label {
+        font-weight: bold;
+    }
+
+    .form-container .btn-success {
+        background-color: #007b5e;
+        border-color: #007b5e;
+    }
+
+    .form-container .btn-success:hover {
+        background-color: #005a43;
+        border-color: #005a43;
+    }
+
+    .form-container .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+    .form-container .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #5a6268;
+    }
+
+    .form-container textarea {
+        resize: none;
+    }
+
+    .form-container .form-check-label {
+        margin-left: 5px;
     }
     </style>
 </head>
@@ -105,15 +140,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="mb-3">
                 <label class="form-label">Aksioni:</label>
                 <div class="form-check">
-                    <input type="radio" id="aksioni1" name="aksioni" value="Aksion ne komunitet" class="form-check-input" required>
+                    <input type="radio" id="aksioni1" name="aksioni" value="Aksion ne komunitet"
+                        class="form-check-input" required>
                     <label for="aksioni1" class="form-check-label">Aksion në komunitet</label>
                 </div>
                 <div class="form-check">
-                    <input type="radio" id="aksioni2" name="aksioni" value="Aksion nder kulturor" class="form-check-input" required>
+                    <input type="radio" id="aksioni2" name="aksioni" value="Aksion nder kulturor"
+                        class="form-check-input" required>
                     <label for="aksioni2" class="form-check-label">Aksion ndër kulturor</label>
                 </div>
                 <div class="form-check">
-                    <input type="radio" id="aksioni3" name="aksioni" value="Aksion kunder dhunes" class="form-check-input" required>
+                    <input type="radio" id="aksioni3" name="aksioni" value="Aksion kunder dhunes"
+                        class="form-check-input" required>
                     <label for="aksioni3" class="form-check-label">Aksion kundër dhunës</label>
                 </div>
             </div>
@@ -126,7 +164,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="mb-3">
                 <label for="desiminatori" class="form-label">Desiminatori:</label>
                 <select id="desiminatori" name="desiminatori" class="form-select" required>
-                    <option value="">Select Teacher</option>
+                    <option value="">Zgjidh Desiminatorin</option>
+                    <option value="Desiminatori 1">Desiminatori 1</option>
+                    <option value="Desiminatori 2">Desiminatori 2</option>
                 </select>
             </div>
 
@@ -142,32 +182,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="mb-3">
                 <label for="permbajtja" class="form-label">Përmbajtja:</label>
-                <textarea id="permbajtja" name="permbajtja" class="form-control" required></textarea>
+                <textarea id="permbajtja" name="permbajtja" class="form-control" rows="3" required></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="analiza_problemit" class="form-label">Analiza e Problemit:</label>
-                <textarea id="analiza_problemit" name="analiza_problemit" class="form-control" required></textarea>
+                <textarea id="analiza_problemit" name="analiza_problemit" class="form-control" rows="3"
+                    required></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="note" class="form-label">Note:</label>
-                <textarea id="note" name="note" class="form-control" required></textarea>
+                <textarea id="note" name="note" class="form-control" rows="3" required></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="percaktimi" class="form-label">Përcaktimi:</label>
-                <textarea id="percaktimi" name="percaktimi" class="form-control" required></textarea>
+                <textarea id="percaktimi" name="percaktimi" class="form-control" rows="3" required></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="perdorimi_projektit" class="form-label">Përdorimi i Projektit:</label>
-                <textarea id="perdorimi_projektit" name="perdorimi_projektit" class="form-control" required></textarea>
+                <textarea id="perdorimi_projektit" name="perdorimi_projektit" class="form-control" rows="3"
+                    required></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="informacione_shtese" class="form-label">Informacione Shtesë:</label>
-                <textarea id="informacione_shtese" name="informacione_shtese" class="form-control" required></textarea>
+                <textarea id="informacione_shtese" name="informacione_shtese" class="form-control" rows="3"
+                    required></textarea>
             </div>
 
             <div class="mb-3">
