@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raporti 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background: #f1b600;
+            padding: 20px;
+            height: 100vh;
+            color: black;
+        }
+        .sidebar a {
+            display: block;
+            color: black;
+            text-decoration: none;
+            padding: 10px 0;
+        }
+        .sidebar a.active {
+            background: #006b6b;
+            padding-left: 10px;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        form {
+            background: #eeeeee;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+        }
+        button {
+            background: #006b6b;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #005254;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="../Screenshot (4).PNG" width="50" height="50" alt="Logo" class="logo">
+        <h3>Super Admin</h3>
+        <a href="#">Paneli i kontrollit</a>
+        <a href="#">Mentorët</a>
+        <a href="#">Desiminatorët</a>
+        <a href="#">Vullnetarët</a>
+        <a href="#">Regjistro Mentor</a>
+        <a href="#">Regjistro Vullnetarë</a>
+        <a href="#">Regjistro Desiminator</a>
+        <a href="#">Projektet</a>
+        <a href="#" class="active">Raportet</a>
+        <a href="#">Kthehu</a>
+    </div>
+    <div class="content">
+        <h2>Raporti 1</h2>
+        <form>
+            <label>Data e raportit:</label>
+            <input type="date">
+            <label>Rajoni:</label>
+            <input type="text">
+            <label>Shkolla:</label>
+            <input type="text">
+            <label>Numri i pjesëmarrësve:</label>
+            <input type="number">
+            <label>A janë përcjellur drejtime per PVH diseminimin apo keni shtuar elemente shtesë?</label>
+            <textarea></textarea>
+            <label>Anet pozitive/negative te orëve (hapësira, pajisja, interesi):</label>
+            <textarea></textarea>
+            <label>Raportin e përgatiti/ten:</label>
+            <textarea></textarea>
+            <label>Rekomandime per postime:</label>
+            <textarea></textarea>
+            <button type="submit">Dërgo</button>
+            <button type="button">Shkarko PDF</button>
+        </form>
+    </div>
+</body>
+</html>

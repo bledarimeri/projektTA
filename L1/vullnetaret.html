@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vullnetarët</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            background: #f8f9fa;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .sidebar {
+            width: 250px;
+            background: #fcc14f;
+            padding: 20px;
+            color: black;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 10px;
+            cursor: pointer;
+            background: #fcc14f;
+            color: black;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .sidebar ul li:hover, .sidebar ul li.active {
+            background: #008080;
+            color: white;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        .table-container {
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #ffcc00;
+            color: black;
+        }
+        .btn {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn-edit {
+            background-color: #008080;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #d9534f;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <img src="../Screenshot (4).PNG" width="50" height="50" alt="Logo">
+            <h2>Super Admin</h2>
+            <ul>
+                <li>Paneli i kontrollit</li>
+                <li>Mentorët</li>
+                <li>Desiminatorët</li>
+                <li class="active">Vullnetarët</li>
+                <li>Regjistro Desiminator</li>
+                <li>Regjistro Vullnetar</li>
+                <li>Regjistro Mentor</li>
+                <li>Projektet</li>
+                <li>Raportet</li>
+            </ul>
+        </aside>
+        <main class="content">
+            <h1>Vullnetarët</h1>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Emri</th>
+                            <th>Mbiemri</th>
+                            <th>Email-i</th>
+                            <th>Numri i telefonit</th>
+                            <th>Qyteti</th>
+                            <th>Funksioni</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vullnetaretTable">
+                        <!-- Të dhënat do të shtohen këtu dinamike -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Merrni të dhënat nga localStorage
+        let vullnetaret = JSON.parse(localStorage.getItem("vullnetaret")) || [];
+        const vullnetaretTable = document.getElementById("vullnetaretTable");
+
+        // Funksioni për të rifreskuar tabelën
+        function refreshTable() {
+            vullnetaretTable.innerHTML = ""; // Pastro tabelën
+            vullnetaret.forEach((vullnetar, index) => {
+                const row = vullnetaretTable.insertRow();
+                row.innerHTML = `
+                    <td>${vullnetar.emri}</td>
+                    <td>${vullnetar.mbiemri}</td>
+                    <td>${vullnetar.email}</td>
+                    <td>${vullnetar.telefoni}</td>
+                    <td>${vullnetar.qyteti}</td>
+                    <td>
+                        <button class="btn btn-edit" onclick="editVullnetar(${index})">Edit</button>
+                        <button class="btn btn-delete" onclick="deleteVullnetar(${index})">Fshi</button>
+                    </td>
+                `;
+            });
+        }
+
+        // Funksioni për të redaktuar një vullnetar
+        function editVullnetar(index) {
+            const vullnetar = vullnetaret[index];
+            const newEmri = prompt("Ndrysho Emrin:", vullnetar.emri);
+            const newMbiemri = prompt("Ndrysho Mbiemrin:", vullnetar.mbiemri);
+            const newEmail = prompt("Ndrysho Email-in:", vullnetar.email);
+            const newTelefoni = prompt("Ndrysho Numrin e Telefonit:", vullnetar.telefoni);
+            const newQyteti = prompt("Ndrysho Qytetin:", vullnetar.qyteti);
+
+            if (newEmri && newMbiemri && newEmail && newTelefoni && newQyteti) {
+                vullnetaret[index] = {
+                    emri: newEmri,
+                    mbiemri: newMbiemri,
+                    email: newEmail,
+                    telefoni: newTelefoni,
+                    qyteti: newQyteti
+                };
+                localStorage.setItem("vullnetaret", JSON.stringify(vullnetaret)); // Përditëso localStorage
+                refreshTable(); // Rifresko tabelën
+            }
+        }
+
+        // Funksioni për të fshirë një vullnetar
+        function deleteVullnetar(index) {
+            if (confirm("A jeni i sigurt që dëshironi të fshini këtë vullnetar?")) {
+                vullnetaret.splice(index, 1); // Fshi vullnetarin nga lista
+                localStorage.setItem("vullnetaret", JSON.stringify(vullnetaret)); // Përditëso localStorage
+                refreshTable(); // Rifresko tabelën
+            }
+        }
+
+        // Shto të dhënat në tabelë kur faqja ngarkohet
+        refreshTable();
+    </script>
+</body>
+</html>
