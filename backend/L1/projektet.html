@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menaxhimi i Projekteve</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #ffcc00;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+        
+        .sidebar h4 {
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .sidebar ul li a:hover {
+            background-color: #1E8449;
+            color: white;
+        }
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            width: calc(100% - 270px);
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f39c12;
+        }
+        .btn-view {
+            background-color: #1E8449;
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="../Screenshot (4).PNG" width="50" height="50" alt="Logo" class="logo">
+            <h4>Super Admin</h4>
+            <ul>
+                <li><a href="#panelikontrollues">Paneli i kontrollit</a></li>
+                <li><a href="#mentoret">Mentorët</a></li>
+                <li><a href="#desiminatoret">Desiminatorët</a></li>
+                <li><a href="#vullnetaret">Vullnetarët</a></li>
+                <li><a href="#regjistroMentor">Regjistro Mentor</a></li>
+                <li><a href="#regjistroDesiminator">Regjistro Desiminator</a></li>
+                <li><a href="#" id="showProjects">Projektet</a></li>
+                <li><a href="#raportet">Raportet</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content" id="projectsSection">
+            <h2>Shiko të gjitha projektet</h2>
+            <table>
+                <tr>
+                    <th>Titulli i Projektit</th>
+                    <th>Mentori</th>
+                    <th>Desiminatori</th>
+                    <th>Vlerësimi (Mesatarja)</th>
+                    <th>Shiko</th>
+                </tr>
+                <tr><td>Projekti 1</td><td>Mentor1</td><td>Teacher1</td><td>0.00</td><td><a href="#" class="btn-view">Shiko Projektin</a></td></tr>
+                <tr><td>Projekti 2</td><td>Mentor1</td><td>Teacher1</td><td>0.00</td><td><a href="#" class="btn-view">Shiko Projektin</a></td></tr>
+                <tr><td>Projekti 3</td><td>Mentor1</td><td>Teacher1</td><td>0.00</td><td><a href="#" class="btn-view">Shiko Projektin</a></td></tr>
+                <tr><td>Projekti 4</td><td>Mentor1</td><td>Teacher1</td><td>0.00</td><td><a href="#" class="btn-view">Shiko Projektin</a></td></tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("showProjects").addEventListener("click", function(event) {
+            event.preventDefault();
+            
+            // Fshih të gjitha seksionet
+            document.querySelectorAll(".main-content").forEach(section => {
+                section.style.display = "none";
+            });
+
+            // Shfaq vetëm seksionin e projekteve
+            document.getElementById("projectsSection").style.display = "block";
+        });
+
+        document.querySelectorAll('.sidebar ul li a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                if (this.getAttribute('href').startsWith("#")) {
+                    event.preventDefault();
+                    const target = this.getAttribute('href').substring(1);
+                    
+                    if (document.getElementById(target)) {
+                        document.querySelectorAll('.main-content').forEach(section => {
+                            section.style.display = 'none';
+                        });
+                        document.getElementById(target).style.display = 'block';
+                    }
+                }
+            });
+        });
+        document.querySelectorAll(".btn-view").forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            
+            let row = this.closest("tr"); // Merr rreshtin ku ndodhet butoni i klikuar
+            let titulli = row.cells[0].innerText;
+            let mentori = row.cells[1].innerText;
+            let desiminatori = row.cells[2].innerText;
+            let vleresimi = row.cells[3].innerText;
+
+            // Hap dritaren për modifikim
+            let action = prompt(
+                `Shiko Projektin:\n\nTitulli: ${titulli}\nMentori: ${mentori}\nDesiminatori: ${desiminatori}\nVlerësimi: ${vleresimi}\n\nZgjidh një veprim:\n- Shtyp "1" për Edit\n- Shtyp "2" për Delete\n- Shtyp "0" për të dalë`
+            );
+
+            if (action === "1") {
+                editRow(row);
+            } else if (action === "2") {
+                deleteRow(row);
+            }
+        });
+    });
+
+    // Funksioni për editim të rreshtit me validim
+    function editRow(row) {
+        let newTitulli = prompt("Ndrysho Titullin e Projektit:", row.cells[0].innerText);
+        let newMentori = prompt("Ndrysho Mentor-in:", row.cells[1].innerText);
+        let newDesiminatori = prompt("Ndrysho Desiminator-in:", row.cells[2].innerText);
+        let newVleresimi = prompt("Ndrysho Vlerësimin (0.00 - 10.00):", row.cells[3].innerText);
+
+        if (newTitulli && newMentori && newDesiminatori && isValidVleresimi(newVleresimi)) {
+            row.cells[0].innerText = newTitulli;
+            row.cells[1].innerText = newMentori;
+            row.cells[2].innerText = newDesiminatori;
+            row.cells[3].innerText = parseFloat(newVleresimi).toFixed(2);
+        } else {
+            alert("Gabim! Sigurohu që ke vendosur të dhëna të sakta.");
+        }
+    }
+
+    // Funksioni për validimin e vlerësimit
+    function isValidVleresimi(value) {
+        let number = parseFloat(value);
+        return !isNaN(number) && number >= 0 && number <= 10;
+    }
+
+    // Funksioni për fshirjen e një rreshti
+    function deleteRow(row) {
+        let confirmDelete = confirm("A jeni i sigurt që dëshironi të fshini këtë projekt?");
+        if (confirmDelete) {
+            row.remove();
+        }
+    }
+    
+    </script>
+</body>
+</html>

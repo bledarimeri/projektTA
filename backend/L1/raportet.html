@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raportet e Diseminatorëve</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #fcc14f;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            color: black;
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            display: block;
+            padding: 10px;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+        .sidebar ul li a:hover, .sidebar ul li a.active {
+            background-color: #008080;
+            color: white;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            width: calc(100% - 270px);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            color: #000080;
+        }
+        .header select {
+            padding: 5px;
+            font-size: 16px;
+        }
+        .report {
+            margin-bottom: 20px;
+        }
+        .report h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .report-table th, .report-table td {
+            border: 1px solid #fcc14f;
+            padding: 10px;
+            text-align: left;
+        }
+        .report-table th {
+            background-color: #fcc14f;
+        }
+        .btn-view {
+            background-color: #007B7F;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="../Screenshot (4).PNG" width="50" height="50" alt="Logo">
+        <h2>Super Admin</h2>
+        <ul>
+            <li><a href="#">Paneli i kontrollit</a></li>
+            <li><a href="#">Mentorët</a></li>
+            <li><a href="#">Diseminatorët</a></li>
+            <li><a href="#">Vullnetarët</a></li>
+            <li><a href="#">Regjistro Mentor</a></li>
+            <li><a href="#">Regjistro Vullnetarë</a></li>
+            <li><a href="#">Regjistro Diseminator</a></li>
+            <li><a href="#">Projektet</a></li>
+            <li><a href="#" class="active">Raportet</a></li>
+            <li><a href="#">Kthehu</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="header">
+            <h1>Raportet e diseminatorëve</h1>
+            <select>
+                <option>Zgjidh Diseminatorin</option>
+                <option>Diseminatori 1</option>
+                <option>Diseminatori 2</option>
+                <option>Diseminatori 3</option>
+                <option>Diseminatori 4</option>
+            </select>
+        </div>
+        <div class="report">
+            <h2>Raportet 1</h2>
+            <table class="report-table">
+                <tr>
+                    <th>Shkolla</th>
+                    <th>Data</th>
+                    <th>Actions</th>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Shkruani shkollën"></td>
+                    <td><input type="date"></td>
+                    <td><button class="btn-view" onclick="validateRow(this)">Shiko</button></td>
+                </tr>
+            </table>
+            <div class="error-message" id="error-message-1"></div>
+        </div>
+    </div>
+    <script>
+        function validateRow(button) {
+            const row = button.closest('tr');
+            const schoolInput = row.querySelector('td:nth-child(1) input');
+            const dateInput = row.querySelector('td:nth-child(2) input');
+            const errorMessage = row.parentElement.parentElement.nextElementSibling;
+
+            if (!schoolInput.value.trim() || !dateInput.value) {
+                errorMessage.textContent = "Ju lutem plotësoni të gjitha fushat!";
+            } else {
+                errorMessage.textContent = "";
+                window.location.href = "raporti1.html"; // Hap faqen Raporti 1
+            }
+        }
+    </script>
+</body>
+</html>
