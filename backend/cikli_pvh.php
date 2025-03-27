@@ -1,8 +1,7 @@
 <?php
 include 'access.php';
 include 'db.php';
-checkAccess([1,3]);
-
+checkAccess([1, 2, 3]);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulli = $_POST['titulli'];
@@ -32,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $skedaret_json = json_encode($skedaret);
 
+    // Ruajtja e të dhënave në tabelën cikli_pvh
     $sql = "INSERT INTO cikli_pvh (titulli, aksioni, dega, desiminatori, punetori, permbajtja_titulli, permbajtja, analiza_problemit, note, percaktimi, perdorimi_projektit, informacione_shtese, skedaret, vleresimi) 
             VALUES (:titulli, :aksioni, :dega, :desiminatori, :punetori, :permbajtja_titulli, :permbajtja, :analiza_problemit, :note, :percaktimi, :perdorimi_projektit, :informacione_shtese, :skedaret, :vleresimi)";
     $stmt = $conn->prepare($sql);
@@ -51,6 +51,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':vleresimi', $vleresimi);
 
     if ($stmt->execute()) {
+        // Ruajtja e të dhënave në tabelën projektet
+        $sql_projektet = "INSERT INTO projektet (titulli, desiminatori) VALUES (:titulli, :desiminatori)";
+        $stmt_projektet = $conn->prepare($sql_projektet);
+        $stmt_projektet->bindParam(':titulli', $titulli);
+        $stmt_projektet->bindParam(':desiminatori', $desiminatori);
+        $stmt_projektet->execute();
+
         echo "Të dhënat u ruajtën me sukses!";
     } else {
         echo "Gabim gjatë ruajtjes së të dhënave.";
@@ -220,7 +227,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="mb-3">
                 <label for="vleresimi" class="form-label">Vlerësimi:</label>
-                <input type="text" id="vleresimi" name="vleresimi" class="form-control" required>
+                <input type="text" id="vleresimi" name="vleresimi" class="form-control" <?php if ($roleId !== 2): ?>
+                    readonly value="-" <?php endif; ?> required>
+                <?php if ($roleId !== 2): ?>
+                <small class="text-danger">Vetëm mentorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="d-flex justify-content-between">
