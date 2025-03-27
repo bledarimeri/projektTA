@@ -100,6 +100,9 @@ $roleId = $_SESSION['role'];
         <a href="mentoret.php" target="content-frame">Mentorët</a>
         <a href="projektet.php" target="content-frame">Projektet</a>
         <a href="raportet.php" target="content-frame">Raportet</a>
+        <a href="cikli_pvh.php" target="content-frame">Cikli Pvh</a>
+        <a href="rezultatet_e_arritura.php" target="content-frame">Rezultatet e arritura</a>
+        <a href="oret_vullnetare.php" target="content-frame">Oret vullnetare</a>
 
         <!-- Desiminator Menu -->
         <?php elseif ($roleId == 3): ?>

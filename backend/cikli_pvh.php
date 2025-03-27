@@ -3,66 +3,62 @@ include 'access.php';
 include 'db.php';
 checkAccess([1, 2, 3]);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $titulli = $_POST['titulli'];
-    $aksioni = $_POST['aksioni'];
-    $dega = $_POST['dega'];
-    $desiminatori = $_POST['desiminatori'];
-    $punetori = $_POST['punetori'];
-    $permbajtja_titulli = $_POST['permbajtja_titulli'];
-    $permbajtja = $_POST['permbajtja'];
-    $analiza_problemit = $_POST['analiza_problemit'];
-    $note = $_POST['note'];
-    $percaktimi = $_POST['percaktimi'];
-    $perdorimi_projektit = $_POST['perdorimi_projektit'];
-    $informacione_shtese = $_POST['informacione_shtese'];
-    $vleresimi = $_POST['vleresimi'];
 
-    // Përpunimi i ngarkimit të skedarëve
-    $skedaret = [];
-    if (!empty($_FILES['skedaret']['name'][0])) {
-        foreach ($_FILES['skedaret']['name'] as $key => $name) {
-            $target_dir = "uploads/";
-            $target_file = $target_dir . basename($name);
-            if (move_uploaded_file($_FILES['skedaret']['tmp_name'][$key], $target_file)) {
-                $skedaret[] = $target_file;
-            }
-        }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $titulli = $_POST['titulli'] ?? null;
+    $desiminatori_id = $_POST['desiminatori_id'] ?? null;
+    $vleresimi = $_POST['vleresimi'] ?? null;
+
+    // Kontrollo nëse të dhënat e nevojshme janë të vendosura
+    if (empty($titulli) || empty($desiminatori_id) || empty($vleresimi)) {
+        echo "Ju lutemi plotësoni të gjitha fushat e kërkuara.";
+        exit;
     }
-    $skedaret_json = json_encode($skedaret);
+
+    // Kontrollo nëse mentori ekziston në tabelën mentoret
+    $sqlCheckDesiminator = "SELECT COUNT(*) FROM desiminatoret WHERE id = :desiminatori_id";
+    $stmtCheckDesiminator = $conn->prepare($sqlCheckDesiminator);
+    $stmtCheckDesiminator->bindParam(':desiminatori_id', $desiminatori_id);
+    $stmtCheckDesiminator->execute();
+    $desiminatoriExists = $stmtCheckDesiminator->fetchColumn();
+
+    if (!$desiminatoriExists) {
+        echo "Desiminatori i zgjedhur nuk ekziston.";
+        exit;
+    }
 
     // Ruajtja e të dhënave në tabelën cikli_pvh
-    $sql = "INSERT INTO cikli_pvh (titulli, aksioni, dega, desiminatori, punetori, permbajtja_titulli, permbajtja, analiza_problemit, note, percaktimi, perdorimi_projektit, informacione_shtese, skedaret, vleresimi) 
-            VALUES (:titulli, :aksioni, :dega, :desiminatori, :punetori, :permbajtja_titulli, :permbajtja, :analiza_problemit, :note, :percaktimi, :perdorimi_projektit, :informacione_shtese, :skedaret, :vleresimi)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':titulli', $titulli);
-    $stmt->bindParam(':aksioni', $aksioni);
-    $stmt->bindParam(':dega', $dega);
-    $stmt->bindParam(':desiminatori', $desiminatori);
-    $stmt->bindParam(':punetori', $punetori);
-    $stmt->bindParam(':permbajtja_titulli', $permbajtja_titulli);
-    $stmt->bindParam(':permbajtja', $permbajtja);
-    $stmt->bindParam(':analiza_problemit', $analiza_problemit);
-    $stmt->bindParam(':note', $note);
-    $stmt->bindParam(':percaktimi', $percaktimi);
-    $stmt->bindParam(':perdorimi_projektit', $perdorimi_projektit);
-    $stmt->bindParam(':informacione_shtese', $informacione_shtese);
-    $stmt->bindParam(':skedaret', $skedaret_json);
-    $stmt->bindParam(':vleresimi', $vleresimi);
+    $sql_cikli = "INSERT INTO cikli_pvh (titulli, desiminatori, vleresimi)
+                  VALUES (:titulli, :desiminatori_id, :vleresimi)";
+    $stmt_cikli = $conn->prepare($sql_cikli);
+    $stmt_cikli->bindParam(':titulli', $titulli);
+    $stmt_cikli->bindParam(':desiminatori_id', $desiminatori_id);
+    $stmt_cikli->bindParam(':vleresimi', $vleresimi);
 
-    if ($stmt->execute()) {
+    if ($stmt_cikli->execute()) {
         // Ruajtja e të dhënave në tabelën projektet
-        $sql_projektet = "INSERT INTO projektet (titulli, desiminatori) VALUES (:titulli, :desiminatori)";
+        $sql_projektet = "INSERT INTO projektet (titulli, desiminatori_id, vleresimi, mentori_id) 
+        VALUES (:titulli, :desiminatori_id, :vleresimi, NULL)";
         $stmt_projektet = $conn->prepare($sql_projektet);
         $stmt_projektet->bindParam(':titulli', $titulli);
-        $stmt_projektet->bindParam(':desiminatori', $desiminatori);
-        $stmt_projektet->execute();
+        $stmt_projektet->bindParam(':desiminatori_id', $desiminatori_id);
+        $stmt_projektet->bindParam(':vleresimi', $vleresimi);
 
-        echo "Të dhënat u ruajtën me sukses!";
+        if ($stmt_projektet->execute()) {
+            echo "Të dhënat u ruajtën me sukses në tabelën projektet!";
+        } else {
+            echo "Gabim gjatë ruajtjes së të dhënave në tabelën projektet.";
+        }
     } else {
-        echo "Gabim gjatë ruajtjes së të dhënave.";
+        echo "Gabim gjatë ruajtjes së të dhënave në tabelën cikli_pvh.";
     }
 }
+
+// Merr listën e desiminatorëve nga tabela desiminatoret
+$sqlDesiminatoret = "SELECT id, emri FROM desiminatoret";
+$stmtDesiminatoret = $conn->prepare($sqlDesiminatoret);
+$stmtDesiminatoret->execute();
+$desiminatoret = $stmtDesiminatoret->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -83,16 +79,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
+        height: auto;
+        width: auto;
     }
 
-    .form-container {
+    .form-container .mb3 {
         background-color: white;
-        padding: 30px;
+        padding: 20px;
         border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 800px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 600px;
+        font-size: 14px;
+        height: 100%;
     }
 
     .form-container h2 {
@@ -126,7 +124,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     .form-container textarea {
-        resize: none;
+        height: 10px;
+        max-height: 350px;
     }
 
     .form-container .form-check-label {
@@ -141,94 +140,153 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="post" action="" enctype="multipart/form-data" class="needs-validation" novalidate>
             <div class="mb-3">
                 <label for="titulli" class="form-label">Titulli:</label>
-                <input type="text" id="titulli" name="titulli" class="form-control" required>
+                <input type="text" id="titulli" name="titulli" class="form-control" <?php if ($roleId !== 3): ?>
+                    readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Aksioni:</label>
+                <label class="form-label" required> Aksioni:</label>
                 <div class="form-check">
                     <input type="radio" id="aksioni1" name="aksioni" value="Aksion ne komunitet"
-                        class="form-check-input" required>
+                        class="form-check-input" <?php if ($roleId !== 3): ?> disabled <?php endif; ?> required>
                     <label for="aksioni1" class="form-check-label">Aksion në komunitet</label>
                 </div>
                 <div class="form-check">
                     <input type="radio" id="aksioni2" name="aksioni" value="Aksion nder kulturor"
-                        class="form-check-input" required>
+                        class="form-check-input" <?php if ($roleId !== 3): ?> disabled <?php endif; ?> required>
                     <label for="aksioni2" class="form-check-label">Aksion ndër kulturor</label>
                 </div>
                 <div class="form-check">
                     <input type="radio" id="aksioni3" name="aksioni" value="Aksion kunder dhunes"
-                        class="form-check-input" required>
+                        class="form-check-input" <?php if ($roleId !== 3): ?> disabled <?php endif; ?> required>
                     <label for="aksioni3" class="form-check-label">Aksion kundër dhunës</label>
                 </div>
             </div>
 
             <div class="mb-3">
                 <label for="dega" class="form-label">Dega e KK:</label>
-                <input type="text" id="dega" name="dega" class="form-control" required>
+                <input type="text" id="dega" name="dega" class="form-control" <?php if ($roleId !== 3): ?> readonly
+                    value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="desiminatori" class="form-label">Desiminatori:</label>
-                <select id="desiminatori" name="desiminatori" class="form-select" required>
+                <select id="desiminatori_id" name="desiminatori_id" class="form-select" required>
                     <option value="">Zgjidh Desiminatorin</option>
-                    <option value="Desiminatori 1">Desiminatori 1</option>
-                    <option value="Desiminatori 2">Desiminatori 2</option>
+                    <?php foreach ($desiminatoret as $desiminatori): ?>
+                    <option value="<?= htmlspecialchars($desiminatori['id']) ?>">
+                        <?= htmlspecialchars($desiminatori['emri']) ?>
+                    </option>
+                    <?php endforeach; ?>
                 </select>
+                <small class="text-danger">Kjo fushë është e detyrueshme.</small>
             </div>
+
+            <!-- <div class="mb-3">
+                <label for="mentori" class="form-label">Mentori:</label>
+                <select id="mentori_id" name="mentori_id" class="form-select" required>
+                    <option value="">Zgjidh Mentor</option>
+                    <option value="Mentori 1">Mentori 1</option>
+                    <option value="Mentori 2">Mentori 2</option>
+                </select>
+                <small class="text-danger">Kjo fushë është e detyrueshme.</small>
+            </div> -->
 
             <div class="mb-3">
                 <label for="punetori" class="form-label">Punëtori:</label>
-                <input type="text" id="punetori" name="punetori" class="form-control" required>
+                <input type="text" id="punetori" name="punetori" class="form-control" <?php if ($roleId !== 3): ?>
+                    readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="permbajtja_titulli" class="form-label">Përmbajtja Titulli:</label>
-                <input type="text" id="permbajtja_titulli" name="permbajtja_titulli" class="form-control" required>
+                <input type="text" id="permbajtja_titulli" name="permbajtja_titulli" class="form-control"
+                    <?php if ($roleId !== 3): ?> readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="permbajtja" class="form-label">Përmbajtja:</label>
-                <textarea id="permbajtja" name="permbajtja" class="form-control" rows="3" required></textarea>
+                <textarea id="permbajtja" name="permbajtja" class="form-control" rows="3" <?php if ($roleId !== 3): ?>
+                    readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
+                </textarea>
             </div>
 
             <div class="mb-3">
                 <label for="analiza_problemit" class="form-label">Analiza e Problemit:</label>
                 <textarea id="analiza_problemit" name="analiza_problemit" class="form-control" rows="3"
-                    required></textarea>
+                    <?php if ($roleId !== 3): ?> readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
+                </textarea>
             </div>
 
             <div class="mb-3">
                 <label for="note" class="form-label">Note:</label>
-                <textarea id="note" name="note" class="form-control" rows="3" required></textarea>
+                <textarea id="note" name="note" class="form-control" rows="3" <?php if ($roleId !== 3): ?> readonly
+                    value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="percaktimi" class="form-label">Përcaktimi:</label>
-                <textarea id="percaktimi" name="percaktimi" class="form-control" rows="3" required></textarea>
+                <textarea id="percaktimi" name="percaktimi" class="form-control" rows="3" <?php if ($roleId !== 3): ?>
+                    readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="perdorimi_projektit" class="form-label">Përdorimi i Projektit:</label>
                 <textarea id="perdorimi_projektit" name="perdorimi_projektit" class="form-control" rows="3"
-                    required></textarea>
+                    <?php if ($roleId !== 3): ?> readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
+                </textarea>
             </div>
 
             <div class="mb-3">
                 <label for="informacione_shtese" class="form-label">Informacione Shtesë:</label>
                 <textarea id="informacione_shtese" name="informacione_shtese" class="form-control" rows="3"
-                    required></textarea>
+                    <?php if ($roleId !== 3): ?> readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
+                </textarea>
             </div>
 
             <div class="mb-3">
                 <label for="skedaret" class="form-label">Skedarët e ngarkuar (PDF, DOCX, Images):</label>
-                <input type="file" id="skedaret" name="skedaret[]" class="form-control" multiple>
+                <input type="file" id="skedaret" name="skedaret[]" class="form-control" <?php if ($roleId !== 3): ?>
+                    readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="vleresimi" class="form-label">Vlerësimi:</label>
                 <input type="text" id="vleresimi" name="vleresimi" class="form-control" <?php if ($roleId !== 2): ?>
-                    readonly value="-" <?php endif; ?> required>
+                    readonly value="readonly" <?php endif; ?> required>
                 <?php if ($roleId !== 2): ?>
                 <small class="text-danger">Vetëm mentorët mund të plotësojnë këtë fushë.</small>
                 <?php endif; ?>
@@ -239,7 +297,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="button" class="btn btn-secondary" onclick="window.print()">Shkarko PDF</button>
             </div>
         </form>
+
     </div>
+
 </body>
 
 </html>

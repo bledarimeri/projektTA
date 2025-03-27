@@ -3,8 +3,21 @@ include 'access.php';
 include 'db.php';
 checkAccess([1, 2, 3]);
 
+// Ruajtja e të dhënave në tabelën projektet
+$sql_projektet = "INSERT INTO projektet (titulli, desiminatori_id, mentori_id, vleresimi) 
+                  VALUES (:titulli, :desiminatori_id, :mentori_id, :vleresimi)";
+$stmt_projektet = $conn->prepare($sql_projektet);
+$stmt_projektet->bindParam(':titulli', $titulli);
+$stmt_projektet->bindParam(':desiminatori_id', $desiminatori_id);
+$stmt_projektet->bindParam(':mentori_id', $mentori_id);
+$stmt_projektet->bindParam(':vleresimi', $vleresimi);
+// $stmt_projektet->execute();
+
 // Merr të dhënat nga tabela projektet
-$sql = "SELECT * FROM projektet";
+$sql = "SELECT p.titulli, d.emri AS desiminatori, m.emri AS mentori, p.vleresimi 
+        FROM projektet p
+        LEFT JOIN desiminatoret d ON p.desiminatori_id = d.id
+        LEFT JOIN mentoret m ON p.mentori_id = m.id";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $projektet = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,7 +43,6 @@ $projektet = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <th>Mentori</th>
                     <th>Desiminatori</th>
                     <th>Vlerësimi</th>
-                    <th>Veprime</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,9 +52,6 @@ $projektet = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= htmlspecialchars($projekti['mentori'] ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($projekti['desiminatori'] ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($projekti['vleresimi'] ?? 'N/A') ?></td>
-                    <td>
-                        <a href="cikli_pvh.php?id=<?= $projekti['id'] ?>" class="btn btn-primary">Shiko Projektin</a>
-                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

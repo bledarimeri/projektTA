@@ -42,10 +42,6 @@ if (isset($_GET['file'])) {
         header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
         readfile($file_path);
         exit;
-    } else {
-        echo "Skedari nuk ekziston ose nuk keni qasje.";
     }
-} else {
-    echo "Nuk është përcaktuar skedari.";
 }
 ?>

@@ -1,6 +1,8 @@
 <?php
 include 'db.php';
 
+
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
@@ -122,7 +124,8 @@ $desiminatorët = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2>Edito Projektin</h2>
         <form method="post" action="">
             <label for="titulli">Titulli:</label>
-            <input type="text" id="titulli" name="titulli" value="<?= htmlspecialchars($projekti['titulli']) ?>" required>
+            <input type="text" id="titulli" name="titulli" value="<?= htmlspecialchars($projekti['titulli']) ?>"
+                required>
 
             <label for="mentori_id">Mentori:</label>
             <select id="mentori_id" name="mentori_id" required>

@@ -1,7 +1,7 @@
 <?php
 include 'access.php';
 include 'db.php';
-checkAccess([1,3]);
+checkAccess([1,2,3]);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $produktet = $_POST['produktet'];
@@ -59,21 +59,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: auto;
+        width: auto;
     }
 
-    .form-container {
+    .form-container .mb3 {
         background-color: white;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         width: 600px;
         font-size: 14px;
+        height: 100%;
+    }
+
+    .form-container textarea {
+        height: 10px;
+        max-height: 350px;
     }
 
     .form-container h2 {
         text-align: center;
         margin-bottom: 20px;
+        color: #007b5e;
     }
     </style>
 </head>
@@ -84,37 +92,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="post" action="" enctype="multipart/form-data" class="needs-validation" novalidate>
             <div class="mb-3">
                 <label for="produktet" class="form-label">Produktet e mbledhura:</label>
-                <input type="text" id="produktet" name="produktet" class="form-control" required>
+                <input type="text" id="produktet" name="produktet" class="form-control" <?php if ($roleId !== 3): ?>
+                    readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="numri_njerezve" class="form-label">Numri i njerëzve të cilëve u është ndihmuar:</label>
-                <input type="text" id="numri_njerezve" name="numri_njerezve" class="form-control" required>
+                <input type="text" id="numri_njerezve" name="numri_njerezve" class="form-control"
+                    <?php if ($roleId !== 3): ?> readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="mjetet_financiare" class="form-label">Gjithsej mjetet financiare:</label>
-                <input type="text" id="mjetet_financiare" name="mjetet_financiare" class="form-control" required>
+                <input type="text" id="mjetet_financiare" name="mjetet_financiare" class="form-control"
+                    <?php if ($roleId !== 3): ?> readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="gjera_shtes" class="form-label">Gjërat shtesë:</label>
-                <input type="text" id="gjera_shtes" name="gjera_shtes" class="form-control" required>
+                <input type="text" id="gjera_shtes" name="gjera_shtes" class="form-control" <?php if ($roleId !== 3): ?>
+                    readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="pershkrimi_projektit" class="form-label">Përshkrimi i Projektit:</label>
-                <textarea id="pershkrimi_projektit" name="pershkrimi_projektit" class="form-control" required></textarea>
+                <textarea id="pershkrimi_projektit" name="pershkrimi_projektit" class="form-control"
+                    <?php if ($roleId !== 3): ?> readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?></textarea>
             </div>
 
-            <div class="mb-3 file-upload">
+            <div class="mb-3">
                 <label for="faturat" class="form-label">Ngarko Faturat (PDF, DOC, DOCX, Images):</label>
-                <input type="file" id="faturat" name="faturat[]" class="form-control" multiple>
+                <input type="file" id="faturat" name="faturat[]" class="form-control" <?php if ($roleId !== 3): ?>
+                    readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 3): ?>
+                <small class="text-danger">Vetëm desiminatorët mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label for="vleresimi" class="form-label">Vlerësimi:</label>
-                <input type="text" id="vleresimi" name="vleresimi" class="form-control" required>
+                <input type="text" id="vleresimi" name="vleresimi" class="form-control" <?php if ($roleId !== 2): ?>
+                    readonly value="readonly" <?php endif; ?> required></textarea>
+                <?php if ($roleId !== 2): ?>
+                <small class="text-danger">Vetëm mentoret mund të plotësojnë këtë fushë.</small>
+                <?php endif; ?>
             </div>
 
             <div class="d-flex justify-content-between">

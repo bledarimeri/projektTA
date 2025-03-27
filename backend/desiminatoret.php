@@ -72,7 +72,7 @@ $desiminatoret = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Mbiemri</th>
             <th>Email-i</th>
             <th>Numri i telefonit</th>
-            <!-- <th>Veprime</th> -->
+            <th>Veprime</th>
         </tr>
         <?php foreach ($desiminatoret as $desiminatori): ?>
         <tr>
@@ -80,11 +80,11 @@ $desiminatoret = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td><?= htmlspecialchars($desiminatori['mbiemri']) ?></td>
             <td><?= htmlspecialchars($desiminatori['email']) ?></td>
             <td><?= htmlspecialchars($desiminatori['numri_telefonit']) ?></td>
-            <!-- <td>
-            <a href="edit_desiminatoret.php?id=<?= htmlspecialchars($desiminatori['id']) ?>" class="edit">Edit</a>
-            <a href="delete_desiminatoret.php?id=<?= htmlspecialchars($desiminatori['id']) ?>" class="delete"
-                onclick="return confirm('A jeni i sigurt që doni ta fshini këtë desiminator?');">Delete</a>
-            </td> -->
+            <td>
+                <a href="edit_desiminatoret.php?id=<?= htmlspecialchars($desiminatori['id']) ?>" class="edit">Edit</a>
+                <a href="delete_desiminatoret.php?id=<?= htmlspecialchars($desiminatori['id']) ?>" class="delete"
+                    onclick="return confirm('A jeni i sigurt që doni ta fshini këtë desiminator?');">Delete</a>
+            </td>
         </tr>
         <?php endforeach; ?>
     </table>
