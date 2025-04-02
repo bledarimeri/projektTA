@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 require 'db.php'; // Lidhja me databazën
 
 if (!isset($_GET['id'])) {
@@ -17,4 +17,4 @@ $raporti = $stmt->fetch(PDO::FETCH_ASSOC);
 // Kthehu te lista e raporteve
 header("Location: raportet.php");
 exit();
-?>
+?> -->

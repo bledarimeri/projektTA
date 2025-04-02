@@ -3,24 +3,30 @@ include 'access.php';
 include 'db.php';
 checkAccess([1, 2, 3]);
 
-// Ruajtja e të dhënave në tabelën projektet
-$sql_projektet = "INSERT INTO projektet (titulli, desiminatori_id, mentori_id, vleresimi) 
-                  VALUES (:titulli, :desiminatori_id, :mentori_id, :vleresimi)";
-$stmt_projektet = $conn->prepare($sql_projektet);
-$stmt_projektet->bindParam(':titulli', $titulli);
-$stmt_projektet->bindParam(':desiminatori_id', $desiminatori_id);
-$stmt_projektet->bindParam(':mentori_id', $mentori_id);
-$stmt_projektet->bindParam(':vleresimi', $vleresimi);
-// $stmt_projektet->execute();
-
 // Merr të dhënat nga tabela projektet
-$sql = "SELECT p.titulli, d.emri AS desiminatori, m.emri AS mentori, p.vleresimi 
+$sql = "SELECT p.id, p.titulli, d.emri AS desiminatori, m.emri AS mentori, p.vleresimi 
         FROM projektet p
         LEFT JOIN desiminatoret d ON p.desiminatori_id = d.id
         LEFT JOIN mentoret m ON p.mentori_id = m.id";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $projektet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Fshi projektin nëse është bërë një kërkesë POST për fshirje
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
+    $deleteId = intval($_POST['delete_id']);
+    $sqlDelete = "DELETE FROM projektet WHERE id = :id";
+    $stmtDelete = $conn->prepare($sqlDelete);
+    $stmtDelete->bindParam(':id', $deleteId);
+    if ($stmtDelete->execute()) {
+        echo "<div class='alert alert-success'>Projekti u fshi me sukses!</div>";
+    } else {
+        echo "<div class='alert alert-danger'>Gabim gjatë fshirjes së projektit!</div>";
+    }
+    // Rifresko faqen për të përditësuar listën
+    header("Location: projektet.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +49,7 @@ $projektet = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <th>Mentori</th>
                     <th>Desiminatori</th>
                     <th>Vlerësimi</th>
+                    <th>Veprime</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,6 +59,11 @@ $projektet = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= htmlspecialchars($projekti['mentori'] ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($projekti['desiminatori'] ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($projekti['vleresimi'] ?? 'N/A') ?></td>
+                    <td>
+                        
+                        <!-- Butoni Shiko Projektin -->
+                        <a href="shiko_projektin.php?id=<?= $projekti['id'] ?>" class="btn btn-info btn-sm">Shiko Projektin</a>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

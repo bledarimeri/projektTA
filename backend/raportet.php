@@ -78,7 +78,7 @@ $raportet = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= htmlspecialchars($raport['pershkrimi']) ?></td>
                     <td><?= htmlspecialchars($raport['emri'] . ' ' . $raport['mbiemri']) ?></td>
                     <td>
-                        <a href="./rezultatet_e_arritura.php" class="btn btn-success btn-sm">Shiko</a>
+                        <a href="./cikli_pvh.php" class="btn btn-success btn-sm">Shiko</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

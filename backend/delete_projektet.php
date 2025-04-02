@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 include 'db.php';
 
 if (isset($_GET['id'])) {
@@ -17,4 +17,4 @@ if (isset($_GET['id'])) {
 } else {
     echo "ID e projektit nuk është specifikuar.";
 }
-?>
+?> -->
