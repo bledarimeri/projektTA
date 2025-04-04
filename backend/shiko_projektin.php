@@ -32,51 +32,51 @@ if (!$projekti) {
 <html lang="sq">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shiko Projektin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shiko Projektin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h2>Detajet e Projektit</h2>
-        <table class="table table-bordered">
-            <tr>
-                <th>Titulli</th>
-                <td><?= htmlspecialchars($projekti['titulli']) ?></td>
-            </tr>
-            <tr>
-                <th>Desiminatori</th>
-                <td><?= htmlspecialchars($projekti['desiminatori']) ?></td>
-            </tr>
-            <tr>
-                <th>Vlerësimi</th>
-                <td><?= htmlspecialchars($projekti['vleresimi']) ?></td>
-            </tr>
-            <tr>
-                <th>Përmbajtja e Titullit</th>
-                <td><?= htmlspecialchars($projekti['permbajtja_titulli']) ?></td>
-            </tr>
-            <tr>
-                <th>Përmbajtja</th>
-                <td><?= htmlspecialchars($projekti['permbajtja']) ?></td>
-            </tr>
-            <tr>
-                <th>Analiza e Problemit</th>
-                <td><?= htmlspecialchars($projekti['analiza_problemit']) ?></td>
-            </tr>
-            <tr>
-                <th>Përdorimi i Projektit</th>
-                <td><?= htmlspecialchars($projekti['perdorimi_projektit']) ?></td>
-            </tr>
-            <tr>
-                <th>Informacione Shtesë</th>
-                <td><?= htmlspecialchars($projekti['informacione_shtese']) ?></td>
-            </tr>
-        </table>
-        <a href="projektet.php" class="btn btn-secondary">Kthehu te Lista e Projekteve</a>
-    </div>
+  <div class="container mt-5">
+    <h2>Detajet e Projektit</h2>
+    <table class="table table-bordered">
+      <tr>
+        <th>Titulli</th>
+        <td><?= htmlspecialchars($projekti['titulli']) ?></td>
+      </tr>
+      <tr>
+        <th>Desiminatori</th>
+        <td><?= htmlspecialchars($projekti['desiminatori']) ?></td>
+      </tr>
+      <tr>
+        <th>Vlerësimi</th>
+        <td><?= htmlspecialchars($projekti['vleresimi']) ?></td>
+      </tr>
+      <tr>
+        <th>Përmbajtja e Titullit</th>
+        <td><?= htmlspecialchars($projekti['permbajtja_titulli']) ?></td>
+      </tr>
+      <tr>
+        <th>Përmbajtja</th>
+        <td><?= htmlspecialchars($projekti['permbajtja']) ?></td>
+      </tr>
+      <tr>
+        <th>Analiza e Problemit</th>
+        <td><?= htmlspecialchars($projekti['analiza_problemit']) ?></td>
+      </tr>
+      <tr>
+        <th>Përdorimi i Projektit</th>
+        <td><?= htmlspecialchars($projekti['perdorimi_projektit']) ?></td>
+      </tr>
+      <tr>
+        <th>Informacione Shtesë</th>
+        <td><?= htmlspecialchars($projekti['informacione_shtese']) ?></td>
+      </tr>
+    </table>
+    <a href="projektet.php" class="btn btn-secondary">Kthehu te Lista e Projekteve</a>
+  </div>
 </body>
 
 </html>

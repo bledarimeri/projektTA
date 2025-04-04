@@ -45,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_projektet->bindParam(':vleresimi', $vleresimi);
 
         if ($stmt_projektet->execute()) {
+          
+
             echo "Të dhënat u ruajtën me sukses në tabelën projektet!";
         } else {
             echo "Gabim gjatë ruajtjes së të dhënave në tabelën projektet.";
@@ -59,6 +61,8 @@ $sqlDesiminatoret = "SELECT id, emri FROM desiminatoret";
 $stmtDesiminatoret = $conn->prepare($sqlDesiminatoret);
 $stmtDesiminatoret->execute();
 $desiminatoret = $stmtDesiminatoret->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -284,7 +288,7 @@ $desiminatoret = $stmtDesiminatoret->fetchAll(PDO::FETCH_ASSOC);
       </div>
 
       <div class="d-flex justify-content-between">
-        <button type="submit" formaction="rezultatet_e_arritura.php" class="btn btn-success">Dërgo</button>
+        <button type="submit" formaction="./rezultatet_e_arritura.php" class="btn btn-success">Dërgo</button>
         <button type="button" class="btn btn-secondary" onclick="window.print()">Shkarko PDF</button>
       </div>
     </form>

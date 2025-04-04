@@ -33,42 +33,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 <html lang="sq">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projektet</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projektet</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h2>Lista e Projekteve</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Titulli</th>
-                    <th>Mentori</th>
-                    <th>Desiminatori</th>
-                    <th>Vlerësimi</th>
-                    <th>Veprime</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($projektet as $projekti): ?>
-                <tr>
-                    <td><?= htmlspecialchars($projekti['titulli']) ?></td>
-                    <td><?= htmlspecialchars($projekti['mentori'] ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($projekti['desiminatori'] ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($projekti['vleresimi'] ?? 'N/A') ?></td>
-                    <td>
-                        
-                        <!-- Butoni Shiko Projektin -->
-                        <a href="shiko_projektin.php?id=<?= $projekti['id'] ?>" class="btn btn-info btn-sm">Shiko Projektin</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+  <div class="container mt-5">
+    <h2>Lista e Projekteve</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Titulli</th>
+          <th>Mentori</th>
+          <th>Desiminatori</th>
+          <th>Vlerësimi</th>
+          <th>Veprime</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($projektet as $projekti): ?>
+        <tr>
+          <td><?= htmlspecialchars($projekti['titulli']) ?></td>
+          <td><?= htmlspecialchars($projekti['mentori'] ?? 'N/A') ?></td>
+          <td><?= htmlspecialchars($projekti['desiminatori'] ?? 'N/A') ?></td>
+          <td><?= htmlspecialchars($projekti['vleresimi'] ?? 'N/A') ?></td>
+          <td>
+
+            <!-- Butoni Shiko Projektin -->
+            <a href="shiko_projektin.php?id=<?= $projekti['id'] ?>" class="btn btn-info btn-sm">Shiko Projektin</a>
+          </td>
+        </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
 </body>
 
 </html>
