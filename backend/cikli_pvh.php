@@ -8,9 +8,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulli = $_POST['titulli'] ?? null;
     $desiminatori_id = $_POST['desiminatori_id'] ?? null;
     $vleresimi = $_POST['vleresimi'] ?? null;
+    $aksioni = $_POST['aksioni'] ?? null;
+    $dega = $_POST['dega'] ?? null;
+    $punetori = $_POST['punetori'] ?? null;
+    $permbajtja_titulli = $_POST['permbajtja_titulli'] ?? null;
+    $permbajtja = $_POST['permbajtja'] ?? null;
+    $analiza_problemit = $_POST['analiza_problemit'] ?? null;
+    $note = $_POST['note'] ?? null;
+    $percaktimi = $_POST['percaktimi'] ?? null;
+    $perdorimi_projektit = $_POST['perdorimi_projektit'] ?? null;
+    $informacione_shtese = $_POST['informacione_shtese'] ?? null;
+    $skedaret = $_FILES['skedaret'] ?? null;
 
     // Kontrollo nëse të dhënat e nevojshme janë të vendosura
-    if (empty($titulli) || empty($desiminatori_id) || empty($vleresimi)) {
+    if (empty($titulli) || empty($desiminatori_id) || empty($vleresimi) || empty($aksioni) || empty($dega) || empty($punetori) || empty($permbajtja_titulli) || empty($permbajtja) || empty($analiza_problemit) || empty($note) || empty($percaktimi) || empty($perdorimi_projektit) || empty($informacione_shtese)) {
         echo "Ju lutemi plotësoni të gjitha fushat e kërkuara.";
         exit;
     }
@@ -28,13 +39,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Ruajtja e të dhënave në tabelën cikli_pvh
-    $sql_cikli = "INSERT INTO cikli_pvh (titulli, desiminatori, vleresimi)
-                  VALUES (:titulli, :desiminatori_id, :vleresimi)";
+    $sql_cikli = "INSERT INTO cikli_pvh (titulli, desiminatori, vleresimi, aksioni, dega, punetori, permbajtja_titulli, permbajtja, analiza_problemit, note, percaktimi, perdorimi_projektit, informacione_shtese, skedaret)
+                  VALUES (:titulli, :desiminatori_id, :vleresimi, :aksioni, :dega, :punetori, :permbajtja_titulli, :permbajtja, :analiza_problemit, :note, :percaktimi, :perdorimi_projektit, :informacione_shtese, :skedaret)";
     $stmt_cikli = $conn->prepare($sql_cikli);
     $stmt_cikli->bindParam(':titulli', $titulli);
     $stmt_cikli->bindParam(':desiminatori_id', $desiminatori_id);
     $stmt_cikli->bindParam(':vleresimi', $vleresimi);
-    
+    $stmt_cikli->bindParam(':aksioni', $aksioni);
+    $stmt_cikli->bindParam(':dega', $dega);
+    $stmt_cikli->bindParam(':punetori', $punetori);
+    $stmt_cikli->bindParam(':permbajtja_titulli', $permbajtja_titulli);
+    $stmt_cikli->bindParam(':permbajtja', $permbajtja);
+    $stmt_cikli->bindParam(':analiza_problemit', $analiza_problemit);
+    $stmt_cikli->bindParam(':note', $note);
+    $stmt_cikli->bindParam(':percaktimi', $percaktimi);
+    $stmt_cikli->bindParam(':perdorimi_projektit', $perdorimi_projektit);
+    $stmt_cikli->bindParam(':informacione_shtese', $informacione_shtese);
+    $stmt_cikli->bindParam(':skedaret', $skedaret['name']); // Assuming file name is stored
 
     if ($stmt_cikli->execute()) {
         // Insert into the new table

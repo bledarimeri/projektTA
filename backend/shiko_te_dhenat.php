@@ -40,7 +40,18 @@ $cikliPVH = $stmtCikliPVH->fetchAll(PDO::FETCH_ASSOC);
         <tr>
           <th>ID</th>
           <th>Titulli</th>
+          <th>Aksioni</th>
+          <th>Dega</th>
           <th>Desiminatori</th>
+          <th>Punëtori</th>
+          <th>Përmbajtja Titulli</th>
+          <th>Përmbajtja</th>
+          <th>Analiza e Problemit</th>
+          <th>Note</th>
+          <th>Përcaktimi</th>
+          <th>Përdorimi i Projektit</th>
+          <th>Informacione Shtesë</th>
+          <th>Skedarët</th>
           <th>Vlerësimi</th>
         </tr>
       </thead>
@@ -49,7 +60,27 @@ $cikliPVH = $stmtCikliPVH->fetchAll(PDO::FETCH_ASSOC);
         <tr>
           <td><?= htmlspecialchars($row['id']) ?></td>
           <td><?= htmlspecialchars($row['titulli']) ?></td>
+          <td><?= htmlspecialchars($row['aksioni']) ?></td>
+          <td><?= htmlspecialchars($row['dega']) ?></td>
           <td><?= htmlspecialchars($row['desiminatori']) ?></td>
+          <td><?= htmlspecialchars($row['punetori']) ?></td>
+          <td><?= htmlspecialchars($row['permbajtja_titulli']) ?></td>
+          <td><?= htmlspecialchars($row['permbajtja']) ?></td>
+          <td><?= htmlspecialchars($row['analiza_problemit']) ?></td>
+          <td><?= htmlspecialchars($row['note']) ?></td>
+          <td><?= htmlspecialchars($row['percaktimi']) ?></td>
+          <td><?= htmlspecialchars($row['perdorimi_projektit']) ?></td>
+          <td><?= htmlspecialchars($row['informacione_shtese']) ?></td>
+          <td>
+            <?php 
+            $skedaret = json_decode($row['skedaret'], true);
+            if (!empty($skedaret)) {
+                foreach ($skedaret as $file) {
+                    echo '<a href="' . htmlspecialchars($file) . '" target="_blank">Shiko Skedarin</a><br>';
+                }
+            }
+            ?>
+          </td>
           <td><?= htmlspecialchars($row['vleresimi']) ?></td>
         </tr>
         <?php endforeach; ?>
