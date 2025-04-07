@@ -34,8 +34,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt_cikli->bindParam(':titulli', $titulli);
     $stmt_cikli->bindParam(':desiminatori_id', $desiminatori_id);
     $stmt_cikli->bindParam(':vleresimi', $vleresimi);
+    
 
     if ($stmt_cikli->execute()) {
+        // Insert into the new table
+        $sql_new_table = "INSERT INTO projektet_data (source, titulli, desiminatori, vleresimi) 
+                          VALUES ('cikli_pvh', :titulli, :desiminatori_id, :vleresimi)";
+        $stmt_new = $conn->prepare($sql_new_table);
+        $stmt_new->bindParam(':titulli', $titulli);
+        $stmt_new->bindParam(':desiminatori_id', $desiminatori_id);
+        $stmt_new->bindParam(':vleresimi', $vleresimi);
+        $stmt_new->execute();
+
         // Ruajtja e të dhënave në tabelën projektet
         $sql_projektet = "INSERT INTO projektet (titulli, desiminatori_id, vleresimi, mentori_id) 
         VALUES (:titulli, :desiminatori_id, :vleresimi, NULL)";
@@ -45,9 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_projektet->bindParam(':vleresimi', $vleresimi);
 
         if ($stmt_projektet->execute()) {
-          
-
             echo "Të dhënat u ruajtën me sukses në tabelën projektet!";
+            // Redirect to rezultatet_e_arritura.php
+            header("Location: ./rezultatet_e_arritura.php");
+            exit;
         } else {
             echo "Gabim gjatë ruajtjes së të dhënave në tabelën projektet.";
         }
@@ -288,8 +299,9 @@ $desiminatoret = $stmtDesiminatoret->fetchAll(PDO::FETCH_ASSOC);
       </div>
 
       <div class="d-flex justify-content-between">
-        <button type="submit" formaction="./rezultatet_e_arritura.php" class="btn btn-success">Dërgo</button>
+        <button type="submit" class="btn btn-success">Dërgo</button>
         <button type="button" class="btn btn-secondary" onclick="window.print()">Shkarko PDF</button>
+        <a href="shiko_projektet.php" class="btn btn-primary">Shiko Projektet</a>
       </div>
     </form>
 

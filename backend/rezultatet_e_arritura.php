@@ -44,6 +44,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':vleresimi', $vleresimi);
 
     if ($stmt->execute()) {
+        // Insert into the new table
+        $sql_new_table = "INSERT INTO projektet_data (source, produktet, numri_njerezve, mjetet_financiare, gjera_shtes, pershkrimi_projektit, faturat, vleresimi) 
+                          VALUES ('rezultatet_e_arritura', :produktet, :numri_njerezve, :mjetet_financiare, :gjera_shtes, :pershkrimi_projektit, :faturat, :vleresimi)";
+        $stmt_new = $conn->prepare($sql_new_table);
+        $stmt_new->bindParam(':produktet', $produktet);
+        $stmt_new->bindParam(':numri_njerezve', $numri_njerezve);
+        $stmt_new->bindParam(':mjetet_financiare', $mjetet_financiare);
+        $stmt_new->bindParam(':gjera_shtes', $gjera_shtes);
+        $stmt_new->bindParam(':pershkrimi_projektit', $pershkrimi_projektit);
+        $stmt_new->bindParam(':faturat', $faturat_json);
+        $stmt_new->bindParam(':vleresimi', $vleresimi);
+        $stmt_new->execute();
+
         // Ridrejto te faqja tjetër pas ruajtjes së suksesshme
         header("Location: ./oret_vullnetare.php?success=1");
         exit;
@@ -166,6 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="d-flex justify-content-between">
         <button type="submit" class="btn btn-success">Dërgo</button>
         <button type="button" class="btn btn-secondary" onclick="window.print()">Shkarko PDF</button>
+        <a href="shiko_projektet.php" class="btn btn-primary">Shiko Projektet</a>
       </div>
     </form>
   </div>

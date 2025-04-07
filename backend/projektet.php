@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
           <td>
 
             <!-- Butoni Shiko Projektin -->
-            <a href="shiko_projektin.php?id=<?= $projekti['id'] ?>" class="btn btn-info btn-sm">Shiko Projektin</a>
+            <a href="./shiko_te_dhenat.php?id=<?= $projekti['id'] ?>" class="btn btn-info btn-sm">Shiko Projektin</a>
           </td>
         </tr>
         <?php endforeach; ?>
